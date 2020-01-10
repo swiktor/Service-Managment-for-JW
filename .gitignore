@@ -3,3 +3,4 @@ auth.php
 ConnectToDB.php
 credentials.json
 token.json
+.ftpconfig
