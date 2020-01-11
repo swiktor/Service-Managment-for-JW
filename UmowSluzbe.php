@@ -18,7 +18,7 @@ if (isset($_GET['id_osoby'])) {
     $wynik_ListaOsobAktywnych=mysqli_query($link, $kwerenda_ListaOsobAktywnych);
 
     include "ConnectToDB.php";
-    $kwerenda_ListaTypy = "select * from jw.typy order by id_typu;";
+    $kwerenda_ListaTypy = "select *, concat(nazwa_typu, ' (', czas_trwania, ')') as typ_czas from jw.typy order by id_typu;";
     $wynik_ListaTypy=mysqli_query($link, $kwerenda_ListaTypy); ?>
 
 
@@ -57,9 +57,9 @@ if (isset($_GET['id_osoby'])) {
       <?php
       while ($komorka_ListaTypy = mysqli_fetch_array($wynik_ListaTypy)) {
           if ($komorka_ListaTypy['id_typu'] == $id_typu) {
-              echo "<option selected='selected' value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['nazwa_typu']."</option>";
+              echo "<option selected='selected' value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
           } else {
-              echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['nazwa_typu']."</option>";
+              echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
           }
       } ?>
     </select>
