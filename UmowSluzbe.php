@@ -142,7 +142,7 @@ $editor = $_POST['editor'];
 
 <?php
 } else {
-    header("refresh:0;url=GAuth/Logowanie.php?skad=UmowSluzbe.php");
-}
+        header("refresh:0;url=GAuth/Logowanie.php?skad=UmowSluzbe.php");
+    }
 
  ?>
