@@ -19,8 +19,11 @@ include "ConnectToDB.php";
    <body>
  <div id='tabelka_show' name='tabelka_show'>
  <table border=1>
-   <tr>
+   <!-- <tr>
      <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='ListaKalendarz.php'>Lista z kalendarza</a></font></td>
+ </tr> -->
+ <tr>
+     <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='Sprawozdania.php'>Sprawozdania</a></font></td>
    </tr>
    <tr>
      <td colspan="3"><font color='black' style="font-weight:bold"><a color='black' href='ListaOsob.php'>Lista osób</a></font></td>

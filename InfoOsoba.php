@@ -72,7 +72,8 @@ if (isset($_GET['remove'])) {
  <th>Imię</th>
  <th>Typ</th>
  <th>Kiedy?</th>
- <th>Umów</th>
+  <th>Info</th>
+ <!-- <th>Umów</th> -->
   <th>Usuń</th>
  </tr>
 
@@ -98,7 +99,8 @@ if (isset($_GET['remove'])) {
         } else {
             echo "<td bgcolor='#add8e6'>".$komorka_show_osoby['kiedy_sluzba']."</td>";
         }
-        echo "<td><font color='black'><a color='black' href='UmowSluzbe.php?id_osoby=".$komorka_show_osoby['id_osoby']."&id_typu=".$komorka_show_osoby['id_typu']."'>Umów</a></font></td>";
+        echo "<td><font color='black'><a color='black' href='DodajSprawozdanie.php?id_sprawozdania=".$komorka_show_osoby['id_sprawozdania']."'>Info</a></font></td>";
+        // echo "<td><font color='black'><a color='black' href='UmowSluzbe.php?id_osoby=".$komorka_show_osoby['id_osoby']."&id_typu=".$komorka_show_osoby['id_typu']."'>Umów</a></font></td>";
         echo "<td><font color='black'><a color='black' href='InfoOsoba.php?id_sluzby=".$komorka_show_osoby['id_sluzby']."&remove=1&id_osoby=".$komorka_show_osoby['id_osoby']."'>Usuń</a></font></td>";
     } ?>
  </body>
