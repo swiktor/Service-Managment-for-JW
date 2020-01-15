@@ -51,6 +51,7 @@ require 'kalendarzsync.php';
          echo "<td>".$event->description."</td>";
          echo "<td>".$event->start->dateTime."</td>";
          echo "<td>".$event->end->dateTime."</td>";
+         // echo "<td>".$event->id."</td>";
          echo "</tr>";
 
          if (empty($start)) {

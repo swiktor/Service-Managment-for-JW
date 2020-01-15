@@ -19,10 +19,19 @@ if (isset($_GET['remove'])) {
             $id_osoby = $_GET['id_osoby'];
         }
 
+        include "ConnectToDB.php";
+        $kwerenda_id_gcal="SELECT id_gcal FROM jw.sluzby where id_sluzby = $id_sluzby;";
+        $wynik_id_gcal=mysqli_query($link, $kwerenda_id_gcal);
+        $komorka_id_gcal = mysqli_fetch_array($wynik_id_gcal);
+        $event_id = $komorka_id_gcal['id_gcal'];
 
         include "ConnectToDB.php";
         $kwerenda_usuwanie = "DELETE FROM sluzby WHERE sluzby.id_sluzby=$id_sluzby";
         $wynik_usuwanie=mysqli_query($link, $kwerenda_usuwanie);
+
+        require 'kalendarzsync.php';
+        $event = $service->events->delete($calendarId, $event_id);
+
 
         if ($wynik_usuwanie) {
             echo '<script language="javascript">';

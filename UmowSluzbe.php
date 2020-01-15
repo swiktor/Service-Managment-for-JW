@@ -102,6 +102,7 @@ $editor = $_POST['editor'];
             $nazwa_typu = $komorka_kalendarz['nazwa_typu'];
             $kiedy_sluzba_od = $komorka_kalendarz['kiedy_sluzba_od'];
             $czas_trwania = $komorka_kalendarz['czas_trwania'];
+            $id_sluzby = $komorka_kalendarz['id_sluzby'];
 
             $kiedy_sluzba_do_sub  = substr($kiedy_sluzba_od, 0, 10);
             $kiedy_sluzba_do_diff =  date('H:i', (strtotime($kiedy_sluzba_od) + strtotime($czas_trwania)));
@@ -133,6 +134,10 @@ $editor = $_POST['editor'];
       ));
 
             $event = $service->events->insert($calendarId, $event);
+            $event_id_gcal =  $event->id;
+            include "ConnectToDB.php";
+            $kwerenda_id_gcal = "UPDATE jw.sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
+            $wynik_id_gcal = mysqli_query($link, $kwerenda_id_gcal);
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         } else {
             echo "ERROR";
