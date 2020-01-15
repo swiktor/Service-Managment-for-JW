@@ -69,7 +69,7 @@ require "ConnectToDB.php";
       echo "<td><b>".$komorka_kwerenda_suma['s_filmy']."</b</td>";
       echo "<td><b>".$komorka_kwerenda_suma['s_odwiedziny']."</b</td>";
       echo "<td><b>".$komorka_kwerenda_suma['s_studia']."</b</td>";
-      echo "<td><b>".$komorka_kwerenda_suma['s_godziny']."</b></td>";
+      echo "<td colspan='2'><b>".$komorka_kwerenda_suma['s_godziny']."</b></td>";
     echo "</tr>";
 
 

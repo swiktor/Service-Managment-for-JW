@@ -66,8 +66,8 @@ CREATE TABLE `uzytkownicy` (
   `imie` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `nazwisko` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `nazwa` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `GAuth` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `haslo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `GAuth` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `GCalendar` varchar(200) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -32,6 +32,10 @@ $haslo_test = password_verify ( $haslo , $haslo_hash );
     session_start();
     $_SESSION['TOTP']='JW';
     $_SESSION['id_uzytkownika']=$id_uzytkownika;
+    setcookie("SluzbyTOTP", "JW", time() + (86400 * 7), "/");
+    setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 7), "/");
+
+
     $link = "../".$skad;
     header( "refresh:0;url=$link");
 
