@@ -5,7 +5,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
 
 <?php
-include "ConnectToDB.php";
+require "ConnectToDB.php";
     $kwerenda_show_osoby = "call WyszukiwarkaSluzbyAll ($id_uzytkownika);";
     $wynik_show_osoby=mysqli_query($link, $kwerenda_show_osoby); ?>
  <!DOCTYPE html>
@@ -19,9 +19,6 @@ include "ConnectToDB.php";
    <body>
  <div id='tabelka_show' name='tabelka_show'>
  <table border=1>
-   <!-- <tr>
-     <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='ListaKalendarz.php'>Lista z kalendarza</a></font></td>
- </tr> -->
  <tr>
      <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='Sprawozdania.php'>Sprawozdania</a></font></td>
    </tr>
