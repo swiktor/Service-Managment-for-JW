@@ -13,11 +13,11 @@ if (isset($_GET['id_osoby'])) {
     if (isset($_GET['id_typu'])) {
         $id_typu = $_GET['id_typu'];
     }
-    include "ConnectToDB.php";
+    require "ConnectToDB.php";
     $kwerenda_ListaOsobAktywnych = "call ListaOsobAktywnych;";
     $wynik_ListaOsobAktywnych=mysqli_query($link, $kwerenda_ListaOsobAktywnych);
 
-    include "ConnectToDB.php";
+    require "ConnectToDB.php";
     $kwerenda_ListaTypy = "select *, concat(nazwa_typu, ' (', czas_trwania, ')') as typ_czas from jw.typy order by id_typu;";
     $wynik_ListaTypy=mysqli_query($link, $kwerenda_ListaTypy); ?>
 
@@ -92,7 +92,7 @@ $editor = $_POST['editor'];
         $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($id_osoby, $id_typu, '$kiedy_sluzba_od', $id_uzytkownika);";
         $wynik_dodaj_sluzbe=mysqli_query($link, $kwerenda_dodaj_sluzbe);
         if ($wynik_dodaj_sluzbe) {
-            include "ConnectToDB.php";
+            require "ConnectToDB.php";
             $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_osoby, $id_typu,'$kiedy_sluzba_od')";
             $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
             $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
@@ -134,9 +134,9 @@ $editor = $_POST['editor'];
 
             $event = $service->events->insert($calendarId, $event);
             $event_id_gcal =  $event->id;
-            include "ConnectToDB.php";
+            require "ConnectToDB.php";
             $kwerenda_id_gcal = "UPDATE jw.sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
-            $wynik_id_gcal = mysqli_query($link, $kwerenda_id_gcal);
+            mysqli_query($link, $kwerenda_id_gcal);
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         } else {
             echo "ERROR";
