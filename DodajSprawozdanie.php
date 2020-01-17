@@ -24,7 +24,6 @@ if (isset($_GET['id_sprawozdania'])) {
         $kwerenda_spr_add = "UPDATE jw.sprawozdania SET publikacje='$publikacje',filmy='$filmy',odwiedziny='$odwiedziny',studia='$studia',godziny='$godziny' WHERE id_sprawozdania='$id_sprawozdania';";
         $wynik_spr_add = mysqli_query($link, $kwerenda_spr_add);
 
-
         if ($wynik_spr_add) {
             echo '<script language="javascript">';
             echo 'alert("Edytowano sprawozdanie")';
@@ -39,12 +38,6 @@ if (isset($_GET['id_sprawozdania'])) {
             header("refresh:0;url=Sprawozdania.php");
         }
     }
-
-
-
-
-
-
 
     require "ConnectToDB.php";
     $kwerenda_sprawozdanie = "SELECT * FROM jw.sprawozdania where id_sprawozdania = $id_sprawozdania;";
