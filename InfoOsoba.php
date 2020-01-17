@@ -9,7 +9,6 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
 if (isset($_GET['remove'])) {
     $remove = $_GET['remove'];
 
-
     if ($remove=1) {
         if (isset($_GET['id_sluzby'])) {
             $id_sluzby = $_GET['id_sluzby'];
@@ -32,7 +31,6 @@ if (isset($_GET['remove'])) {
         require 'kalendarzsync.php';
         $event = $service->events->delete($calendarId, $event_id);
 
-
         if ($wynik_usuwanie) {
             echo '<script language="javascript">';
             echo 'alert("Usunięto służbę")';
@@ -48,9 +46,6 @@ if (isset($_GET['remove'])) {
         }
     }
 }
-
-
-
 
     if (isset($_GET['id_osoby'])) {
         $id_osoby = $_GET['id_osoby'];
@@ -115,10 +110,9 @@ if (isset($_GET['remove'])) {
  </body>
  </html>
 
-
  <?php
 } else {
-     header("refresh:0;url=GAuth/Logowanie.php?skad=InfoOsoba.php");
- }
+        header("refresh:0;url=GAuth/Logowanie.php?skad=InfoOsoba.php");
+    }
 
   ?>

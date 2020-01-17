@@ -5,7 +5,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
 
 <?php
-include "ConnectToDB.php";
+require "ConnectToDB.php";
     $kwerenda_osoby_lista = "call ListaOsobStatystyczna();";
     $wynik_osoby_lista=mysqli_query($link, $kwerenda_osoby_lista); ?>
  <!DOCTYPE html>

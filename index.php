@@ -62,7 +62,6 @@ include "ConnectToDB.php";
         echo "<td><font color='black'><a color='black' href='UmowSluzbe.php?id_osoby=".$komorka_show_osoby['id_osoby']."&id_typu=".$komorka_show_osoby['id_typu']."'>Umów</a></font></td></tr>";
     } ?>
 
-
 </table>
 </div>
 </body>

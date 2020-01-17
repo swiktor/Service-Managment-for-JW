@@ -64,7 +64,6 @@ require 'kalendarzsync.php';
 </div>
 </html>
 
-
 <?php
 } else {
      header("refresh:0;url=GAuth/Logowanie.php?skad=ListaKalendarz.php");

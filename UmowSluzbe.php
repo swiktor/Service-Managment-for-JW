@@ -21,7 +21,6 @@ if (isset($_GET['id_osoby'])) {
     $kwerenda_ListaTypy = "select *, concat(nazwa_typu, ' (', czas_trwania, ')') as typ_czas from jw.typy order by id_typu;";
     $wynik_ListaTypy=mysqli_query($link, $kwerenda_ListaTypy); ?>
 
-
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
   <head>
