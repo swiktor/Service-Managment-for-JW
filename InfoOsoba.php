@@ -18,13 +18,13 @@ if (isset($_GET['remove'])) {
             $id_osoby = $_GET['id_osoby'];
         }
 
-        include "ConnectToDB.php";
+        require "ConnectToDB.php";
         $kwerenda_id_gcal="SELECT id_gcal FROM jw.sluzby where id_sluzby = $id_sluzby;";
         $wynik_id_gcal=mysqli_query($link, $kwerenda_id_gcal);
         $komorka_id_gcal = mysqli_fetch_array($wynik_id_gcal);
         $event_id = $komorka_id_gcal['id_gcal'];
 
-        include "ConnectToDB.php";
+        require "ConnectToDB.php";
         $kwerenda_usuwanie = "DELETE FROM sluzby WHERE sluzby.id_sluzby=$id_sluzby";
         $wynik_usuwanie=mysqli_query($link, $kwerenda_usuwanie);
 
@@ -51,7 +51,7 @@ if (isset($_GET['remove'])) {
         $id_osoby = $_GET['id_osoby'];
     }
 
-    include "ConnectToDB.php";
+    require "ConnectToDB.php";
     $kwerenda_wyszukiwarka="call WyszukiwarkaOsobowa ($id_osoby, $id_uzytkownika)";
     $wynik_wyszukiwarka=mysqli_query($link, $kwerenda_wyszukiwarka); ?>
 
@@ -69,17 +69,15 @@ if (isset($_GET['remove'])) {
    <tr>
      <td colspan="7"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
    </tr>
- <tr>
- <th>Lp.</th>
-  <!-- <th>ID</th> -->
- <th>Nazwisko</th>
- <th>Imię</th>
- <th>Typ</th>
- <th>Kiedy?</th>
-  <th>Info</th>
- <!-- <th>Umów</th> -->
-  <th>Usuń</th>
- </tr>
+   <tr>
+     <th>Lp.</th>
+     <th>Nazwisko</th>
+     <th>Imię</th>
+     <th>Typ</th>
+     <th>Kiedy?</th>
+     <th>Info</th>
+     <th>Usuń</th>
+   </tr>
 
  <?php
  $i =1;
@@ -87,7 +85,6 @@ if (isset($_GET['remove'])) {
     while ($komorka_show_osoby = mysqli_fetch_array($wynik_wyszukiwarka)) {
         echo "<tr>";
         echo "<td>".$i++."</td>";
-        // echo "<td>".$komorka_show_osoby['id_sluzby']."</td>";
         echo "<td>".$komorka_show_osoby['nazwisko']."</td>";
         echo "<td>".$komorka_show_osoby['imie']."</td>";
         echo "<td>".$komorka_show_osoby['nazwa_typu']."</td>";
@@ -104,7 +101,6 @@ if (isset($_GET['remove'])) {
             echo "<td bgcolor='#add8e6'>".$komorka_show_osoby['kiedy_sluzba']."</td>";
         }
         echo "<td><font color='black'><a color='black' href='DodajSprawozdanie.php?id_sprawozdania=".$komorka_show_osoby['id_sprawozdania']."'>Info</a></font></td>";
-        // echo "<td><font color='black'><a color='black' href='UmowSluzbe.php?id_osoby=".$komorka_show_osoby['id_osoby']."&id_typu=".$komorka_show_osoby['id_typu']."'>Umów</a></font></td>";
         echo "<td><font color='black'><a color='black' href='InfoOsoba.php?id_sluzby=".$komorka_show_osoby['id_sluzby']."&remove=1&id_osoby=".$komorka_show_osoby['id_osoby']."'>Usuń</a></font></td>";
     } ?>
  </body>
