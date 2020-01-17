@@ -5,7 +5,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
 
 <?php
-require "ConnectToDB.php";
+    require "ConnectToDB.php";
     $kwerenda_osoby_lista = "call ListaOsobStatystyczna();";
     $wynik_osoby_lista=mysqli_query($link, $kwerenda_osoby_lista); ?>
  <!DOCTYPE html>
@@ -26,8 +26,6 @@ require "ConnectToDB.php";
  <th>Lp.</th>
  <th>Nazwisko</th>
  <th>Imię</th>
-<!-- <th>Id_osoby</th> -->
- <!-- <th>Ilość</th> -->
  <th>Info</th>
  <th>Umów</th>
  </tr>
@@ -41,8 +39,6 @@ require "ConnectToDB.php";
         echo "<td>".$i++."</td>";
         echo "<td>".$komorka_show_osoby['nazwisko']."</td>";
         echo "<td>".$komorka_show_osoby['imie']."</td>";
-        // echo "<td>".$komorka_show_osoby['id_osoby']."</td>";
-        // echo "<td>".$komorka_show_osoby['ile']."</td>";
         echo "<td><a color='black' href='InfoOsoba.php?id_osoby=".$komorka_show_osoby['id_osoby']."'>Info</a></font></td>";
         echo "<td><a href='UmowSluzbe.php?id_osoby=".$komorka_show_osoby['id_osoby']."'>Umów</td>";
     } ?>
@@ -54,7 +50,7 @@ require "ConnectToDB.php";
 
  <?php
 } else {
-     header("refresh:0;url=GAuth/Logowanie.php?skad=ListaOsob.php");
- }
+        header("refresh:0;url=GAuth/Logowanie.php?skad=ListaOsob.php");
+    }
 
   ?>
