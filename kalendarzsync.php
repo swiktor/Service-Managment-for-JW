@@ -1,7 +1,7 @@
 <?php
-include 'auth.php';
+require 'auth.php';
 
-include 'ConnectToDB.php';
+require "ConnectToDB.php";
 $kwerenda_kalendarz = "SELECT GCalendar FROM jw.uzytkownicy where id_uzytkownika = '$id_uzytkownika'";
 $wynik_kalendarz=mysqli_query($link, $kwerenda_kalendarz);
 $tablica_kalendarz = mysqli_fetch_array($wynik_kalendarz);
