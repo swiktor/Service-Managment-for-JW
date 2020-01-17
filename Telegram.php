@@ -3,6 +3,12 @@ if (php_sapi_name() != 'cli') {
     throw new Exception('This application must be run on the command line.');
 }
 
+require "ConnectToDB.php";
+$kwerenda_api = "call TelegramToken;";
+$wynik_api=mysqli_query($link, $kwerenda_api);
+$komorka_api = mysqli_fetch_array($wynik_api);
+$token = $komorka_api['token'];
+
 function sendMessage($chatID, $messaggio, $token)
 {
     $url = "https://api.telegram.org/bot" . $token . "/sendMessage?chat_id=" . $chatID;
@@ -19,13 +25,7 @@ function sendMessage($chatID, $messaggio, $token)
 }
 
     require "ConnectToDB.php";
-    $kwerenda_api = "call TelegramToken;";
-    $wynik_api=mysqli_query($link, $kwerenda_api);
-    $komorka_api = mysqli_fetch_array($wynik_api);
-    $token = $komorka_api['token'];
-
-    require "ConnectToDB.php";
-    $kwerenda_mess = "call TelegramWysylkaWiadomosci;";
+    $kwerenda_mess = "call TelegramSluzby;";
     $wynik_mess=mysqli_query($link, $kwerenda_mess);
 
 $i=0;
@@ -35,6 +35,25 @@ $i=0;
         sendMessage($chatid, $messaggio, $token);
         $i++;
     }
+
+require "ConnectToDB.php";
+$kwerenda_sprawozdanie = "call TelegramSprawozdania;";
+$wynik_sprawozdanie=mysqli_query($link, $kwerenda_sprawozdanie);
+
+while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
+    $ostatni = $komorka_sprawozdanie['ostatni'];
+    $dzis = $komorka_sprawozdanie['dzis'];
+    if ($ostatni == $dzis) {
+        $chatid = $komorka_sprawozdanie['telegram_chat_id'];
+        $messaggio =  $komorka_sprawozdanie['tresc_sprawozdania'];
+        sendMessage($chatid, $messaggio, $token);
+        $i++;
+
+        $messaggio = $komorka_sprawozdanie['minuty'];
+        sendMessage($chatid, $messaggio, $token);
+        $i++;
+    }
+}
 
 require "ConnectToDB.php";
 $kwerenda_kontrolna = "call TelegramKontrola";
