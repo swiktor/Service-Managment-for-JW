@@ -5,7 +5,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
 
 <?php
-require "ConnectToDB.php";
+    require "ConnectToDB.php";
     $kwerenda_show_sprawozdania = "call ListaSprawozdania ($id_uzytkownika);";
     $wynik_show_sprawozdania=mysqli_query($link, $kwerenda_show_sprawozdania);
 
@@ -13,8 +13,6 @@ require "ConnectToDB.php";
     $kwerenda_suma = "call SprawozdanieSuma($id_uzytkownika)";
     $wynik_kwerenda_suma = mysqli_query($link, $kwerenda_suma);
     $komorka_kwerenda_suma = mysqli_fetch_array($wynik_kwerenda_suma); ?>
-
-
 
  <!DOCTYPE html>
  <html lang="pl">
@@ -62,7 +60,6 @@ require "ConnectToDB.php";
         echo "</tr>";
     }
 
-
     echo "<tr>";
     echo "<td colspan='3'><b>SUMA</td>";
     echo "<td><b>".$komorka_kwerenda_suma['s_publikacje']."</b</td>";
@@ -73,26 +70,20 @@ require "ConnectToDB.php";
     echo "</tr>"; ?>
     <tr>
       <td colspan='7'><b>Miesięczny bilans godzin</b></td>
-        <?php if ($komorka_kwerenda_suma['roznica_godzin']>=0)
-      {
+        <?php if ($komorka_kwerenda_suma['roznica_godzin']>=0) {
         echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
-      }
-      else {
+    } else {
         echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
-      }
-      ?>
+    } ?>
     </tr>
 
     <tr>
       <td colspan='7'><b>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></b></td>
-<?php if ($komorka_kwerenda_suma['bilans_rzeczywisty']>=0)
-{
-  echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
-}
-else {
-  echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
-}
-?>
+<?php if ($komorka_kwerenda_suma['bilans_rzeczywisty']>=0) {
+        echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
+    } else {
+        echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
+    } ?>
     </tr>
 
     <tr>
