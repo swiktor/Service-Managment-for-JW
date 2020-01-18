@@ -6,11 +6,11 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
 
 <?php
     require "ConnectToDB.php";
-    $kwerenda_show_sprawozdania = "call ListaSprawozdania ($id_uzytkownika);";
+    $kwerenda_show_sprawozdania = "call SprawozdaniaLista ($id_uzytkownika);";
     $wynik_show_sprawozdania=mysqli_query($link, $kwerenda_show_sprawozdania);
 
     require "ConnectToDB.php";
-    $kwerenda_suma = "call SprawozdanieSuma($id_uzytkownika)";
+    $kwerenda_suma = "call SprawozdaniaSuma($id_uzytkownika)";
     $wynik_kwerenda_suma = mysqli_query($link, $kwerenda_suma);
     $komorka_kwerenda_suma = mysqli_fetch_array($wynik_kwerenda_suma); ?>
 
@@ -79,7 +79,9 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
 
     <tr>
       <td colspan='7'><b>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></b></td>
-<?php if ($komorka_kwerenda_suma['bilans_rzeczywisty']>=0) {
+<?php
+$bilans_rzeczywisty = $komorka_kwerenda_suma['bilans_rzeczywisty'];
+if ($bilans_rzeczywisty>='00:00:00') {
         echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
     } else {
         echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";

@@ -137,9 +137,15 @@ $editor = $_POST['editor'];
             require "ConnectToDB.php";
             $kwerenda_id_gcal = "UPDATE jw.sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
             mysqli_query($link, $kwerenda_id_gcal);
+            echo '<script language="javascript">';
+            echo 'alert("Dodano służbę")';
+            echo '</script>';
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         } else {
-            echo "ERROR";
+          echo '<script language="javascript">';
+          echo 'alert("Nie udało się dodać służby")';
+          echo '</script>';
+          header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         }
         header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
     } ?>
