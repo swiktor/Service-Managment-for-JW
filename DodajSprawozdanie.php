@@ -28,6 +28,11 @@ if (isset($_GET['id_sprawozdania'])) {
             echo '<script language="javascript">';
             echo 'alert("Edytowano sprawozdanie")';
             echo '</script>';
+
+            require "ConnectToDB.php";
+            $QueryAddLog="call LogAdd($id_uzytkownika,'Edit report','$ip');";
+            mysqli_query($link, $QueryAddLog);
+
             header("refresh:0;url=Sprawozdania.php");
         }
 
