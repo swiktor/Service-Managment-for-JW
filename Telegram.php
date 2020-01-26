@@ -52,15 +52,36 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
         $messaggio = $komorka_sprawozdanie['minuty'];
         sendMessage($chatid, $messaggio, $token);
         $i++;
+
+        $kto = $komorka_sprawozdanie['id_osoby'];
+        $typ = '1';
+        $kiedy = $komorka_sprawozdanie['jutro'];
+        $uzytkownik = $komorka_sprawozdanie['id_uzytkownika'];
+        $minuty = $komorka_sprawozdanie['minuty_do_przeniesienia'];
+
+        require "ConnectToDB.php";
+        $KwDodajSluzbeMinuty = "INSERT INTO jw.sluzby VALUES (NULL, $kto, $typ, '$kiedy', CURRENT_TIMESTAMP(), $uzytkownik, 'id_gcal');";
+        $DodajSluzbeMinuty = mysqli_query($link, $KwDodajSluzbeMinuty);
+
+        if ($DodajSluzbeMinuty) {
+            require "ConnectToDB.php";
+            $kwerenda_kalendarz = "CALL DaneDoKalendarza($kto, $typ,'$kiedy',$uzytkownik)";
+            $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
+            $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
+            $id_sprawozdania = $komorka_kalendarz['id_sprawozdania'];
+
+            require "ConnectToDB.php";
+            $kwerenda_spr_add = "UPDATE jw.sprawozdania SET publikacje='0',filmy='0',odwiedziny='0',studia='0',godziny='$minuty' WHERE id_sprawozdania='$id_sprawozdania';";
+            $wynik_spr_add = mysqli_query($link, $kwerenda_spr_add);
+        }
     }
 }
 
-require "ConnectToDB.php";
-$kwerenda_kontrolna = "call TelegramKontrola";
-$wynik_kontrola = mysqli_query($link, $kwerenda_kontrolna);
+    require "ConnectToDB.php";
+    $kwerenda_kontrolna = "call TelegramKontrola";
+    $wynik_kontrola = mysqli_query($link, $kwerenda_kontrolna);
 
-while ($komorka_kontrola = mysqli_fetch_array($wynik_kontrola)) {
+    $komorka_kontrola = mysqli_fetch_array($wynik_kontrola);
     $chatid = $komorka_kontrola['telegram_chat_id'];
     $messaggio = $komorka_kontrola['tresc']. ', w ilości: '.$i;
     sendMessage($chatid, $messaggio, $token);
-}
