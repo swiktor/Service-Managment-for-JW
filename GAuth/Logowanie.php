@@ -9,7 +9,7 @@ if (isset($_POST["logowanie"])) {
     require_once('vendor/autoload.php');
     require_once('vendor/PHPGangsta/GoogleAuthenticator.php');
 
-    include "../ConnectToDB.php";
+    require "../ConnectToDB.php";
     $kwerenda_kod = "SELECT id_uzytkownika, GAuth, haslo FROM jw.uzytkownicy where nazwa = '$nazwa'";
     $wynik_kod=mysqli_query($link, $kwerenda_kod);
     $tablica_kod = mysqli_fetch_array($wynik_kod);
@@ -28,6 +28,18 @@ if (isset($_POST["logowanie"])) {
         setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 7), "/");
         $link = "../".$skad;
         header("refresh:0;url=$link");
+
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+require "../ConnectToDB.php";
+$QueryAddLog="call LogAdd($id_uzytkownika,'User login','$ip');";
+mysqli_query($link, $QueryAddLog);
     } else {
         echo '<script language="javascript">';
         echo 'alert("Błędny kod")';
