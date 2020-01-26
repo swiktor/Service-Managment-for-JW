@@ -35,6 +35,10 @@ if (isset($_GET['remove'])) {
             echo '<script language="javascript">';
             echo 'alert("Usunięto służbę")';
             echo '</script>';
+
+            $QueryAddLog="call LogAdd($id_uzytkownika,'Remove ministry','$ip');";
+            mysqli_query($link, $QueryAddLog);
+            
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         }
 
