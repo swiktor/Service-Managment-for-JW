@@ -18,7 +18,7 @@ if (isset($_GET['id_osoby'])) {
     $wynik_ListaOsobAktywnych=mysqli_query($link, $kwerenda_ListaOsobAktywnych);
 
     require "ConnectToDB.php";
-    $kwerenda_ListaTypy = "select *, concat(nazwa_typu, ' (', czas_trwania, ')') as typ_czas from jw.typy order by id_typu;";
+    $kwerenda_ListaTypy = "call TypyLista;";
     $wynik_ListaTypy=mysqli_query($link, $kwerenda_ListaTypy); ?>
 
 <!DOCTYPE html>
@@ -89,11 +89,12 @@ $editor = $_POST['editor'];
     }
 
     if ($editor==1) {
+        require "ConnectToDB.php";
         $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($id_osoby, $id_typu, '$kiedy_sluzba_od', $id_uzytkownika);";
         $wynik_dodaj_sluzbe=mysqli_query($link, $kwerenda_dodaj_sluzbe);
         if ($wynik_dodaj_sluzbe) {
             require "ConnectToDB.php";
-            $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_osoby, $id_typu,'$kiedy_sluzba_od')";
+            $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_osoby, $id_typu,'$kiedy_sluzba_od',$id_uzytkownika)";
             $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
             $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
 
@@ -140,12 +141,16 @@ $editor = $_POST['editor'];
             echo '<script language="javascript">';
             echo 'alert("Dodano służbę")';
             echo '</script>';
+
+            $QueryAddLog="call LogAdd($id_uzytkownika,'Add ministry','$ip');";
+            mysqli_query($link, $QueryAddLog);
+
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         } else {
-          echo '<script language="javascript">';
-          echo 'alert("Nie udało się dodać służby")';
-          echo '</script>';
-          header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
+            echo '<script language="javascript">';
+            echo 'alert("Nie udało się dodać służby")';
+            echo '</script>';
+            header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         }
         header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
     } ?>
