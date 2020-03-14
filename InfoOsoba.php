@@ -38,7 +38,7 @@ if (isset($_GET['remove'])) {
 
             $QueryAddLog="call LogAdd($id_uzytkownika,'Remove ministry','$ip');";
             mysqli_query($link, $QueryAddLog);
-            
+
             header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         }
 
@@ -71,8 +71,9 @@ if (isset($_GET['remove'])) {
  <div id='tabelka_show' name='tabelka_show'>
  <table border=1>
    <tr>
-     <td colspan="7"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
-   </tr>
+     <td colspan="3"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
+     <td colspan="4"><font color='black' style="font-weight:bold"><a color='black' href='Sprawozdania.php'>Sprawozdania</a></font></td>
+ </tr>
    <tr>
      <th>Lp.</th>
      <th>Nazwisko</th>

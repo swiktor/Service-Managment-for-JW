@@ -5,12 +5,29 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
 
 <?php
+if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka']=='1') {
+        session_start();
+        $_SESSION['miesiac'] = $_POST['miesiac'];
+        $_SESSION['rok'] = $_POST['rok'];
+    }
+
+    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka']=='0') {
+        session_start();
+        $_SESSION['miesiac'] = date('m');
+        $_SESSION['rok'] = date('Y');
+    }
+
+    session_start();
+    $miesiac = $_SESSION['miesiac'];
+    $rok =  $_SESSION['rok'];
+
+
     require "ConnectToDB.php";
-    $kwerenda_show_sprawozdania = "call SprawozdaniaLista ($id_uzytkownika);";
+    $kwerenda_show_sprawozdania = "call SprawozdaniaLista ($id_uzytkownika, $miesiac, $rok);";
     $wynik_show_sprawozdania=mysqli_query($link, $kwerenda_show_sprawozdania);
 
     require "ConnectToDB.php";
-    $kwerenda_suma = "call SprawozdaniaSuma($id_uzytkownika)";
+    $kwerenda_suma = "call SprawozdaniaSuma($id_uzytkownika, $miesiac, $rok)";
     $wynik_kwerenda_suma = mysqli_query($link, $kwerenda_suma);
     $komorka_kwerenda_suma = mysqli_fetch_array($wynik_kwerenda_suma); ?>
 
@@ -27,14 +44,122 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
  <table border=1>
 
    <tr>
-     <!-- <td colspan="10"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td> -->
-     <td colspan="11"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
- </tr>
- <tr>
-   <!-- <td colspan='10'><b>Profil: <?php echo $komorka_kwerenda_suma['nazwa_celu']; ?></b></td> -->
-   <td colspan='11'><b>Profil: <a color='black' href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'><?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?></a></b></td>
+     <td colspan="3"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
+   <td colspan='5'><b>Profil: <a color='black' href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'><?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?> </a></b></td>
+     <td colspan='3'><b><a color='black' href='BilansPioniera.php'>Bilans pioniera</a></b></td>
+   </tr>
+   <tr>
+      <td colspan='2'><b><a color='black' href='StatystykaOsobowa.php'>Statystyka osobowa</a></b></td>
+     <form class="" action="Sprawozdania.php" method="post">
+     <td colspan="2"><font color='black' style="font-weight:bold">Wyszukiwarka</font></td>
+<td colspan="2">
+     <select  name='miesiac' id="miesiac">
+<?php
+for ($i=1; $i < 13; $i++) {
 
- </tr>
+if ($i == $miesiac)
+{
+  $t = "selected='selected'";
+}
+else {
+  $t = '';
+}
+
+        switch ($i) {
+    case '1':
+      echo '<option '.$t.' value='.$i.'>Styczeń</option>';
+      break;
+
+      case '2':
+        echo '<option '.$t.' value='.$i.'>Luty</option>';
+        break;
+
+        case '3':
+          echo '<option '.$t.' value='.$i.'>Marzec</option>';
+          break;
+
+          case '4':
+            echo '<option  '.$t.' value='.$i.'>Kwiecień</option>';
+            break;
+
+            case '5':
+              echo '<option '.$t.' value='.$i.'>Maj</option>';
+              break;
+
+              case '6':
+                echo '<option '.$t.' value='.$i.'>Czerwiec</option>';
+                break;
+
+                case '7':
+                  echo '<option '.$t.' value='.$i.'>Lipiec</option>';
+                  break;
+
+                  case '8':
+                    echo '<option '.$t.' value='.$i.'>Sierpień</option>';
+                    break;
+
+                    case '9':
+                      echo '<option '.$t.' value='.$i.'>Wrzesień</option>';
+                      break;
+
+                      case '10':
+                        echo '<option '.$t.' value='.$i.'>Pażdziernik</option>';
+                        break;
+
+                        case '11':
+                          echo '<option '.$t.' value='.$i.'>Listopad</option>';
+                          break;
+
+                          case '12':
+                            echo '<option '.$t.' value='.$i.'>Grudzień</option>';
+                            break;
+
+    default:
+      // code...
+      break;
+  }
+    } ?>
+
+       <option  value="0">Miesiąc</option>
+     </select>
+</td>
+<td colspan="2">
+<select name='rok' id="rok">
+
+<?php
+for ($i=2019; $i <2029 ; $i++) {
+        if ($i == $rok) {
+            echo "<option selected='selected' value='$i'>$i</option>";
+        } else {
+            echo "<option value='$i'>$i</option>";
+        }
+    } ?>
+</select>
+</td>
+
+<?php
+
+$m = date('m');
+$r = date('Y');
+
+if ($miesiac<10) {$miesiac = '0'.$miesiac;}
+
+if ($miesiac != $m || $rok != $r)
+{
+echo '<input type="hidden" name="wyszukiwarka" value="0">';
+}
+else {
+  echo '<input type="hidden" name="wyszukiwarka" value="1">';
+}
+
+
+
+ ?>
+
+<td colspan="3"><input type="submit" value="Wyszukaj / Reset"></td>
+</form>
+</tr>
+
    <tr>
      <th>Lp.</th>
    <th>Kto</th>
@@ -46,7 +171,6 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
  <th>Studia</th>
   <th>Godziny</th>
   <th>Edycja</th>
-  <!-- <th>Planowy czas</th> -->
   <th>Bilans czasu</th>
  </tr>
 
@@ -64,7 +188,6 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
         echo "<td>".$komorka_show_sprawozdania['studia']."</td>";
         echo "<td>".$komorka_show_sprawozdania['godziny']."</td>";
         echo "<td><a color='black' href='DodajSprawozdanie.php?id_sprawozdania=".$komorka_show_sprawozdania['id_sprawozdania']."'>Edytuj</a></font></td>";
-        // echo "<td>".$komorka_show_sprawozdania['czas_trwania']."</td>";
         if ($komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc']>='00:00') {
             echo "<td bgcolor='#90EE90'><b>".$komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc']."</b></td>";
         } else {
@@ -80,24 +203,46 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     echo "<td><b>".$komorka_kwerenda_suma['s_odwiedziny']."</b</td>";
     echo "<td><b>".$komorka_kwerenda_suma['s_studia']."</b</td>";
     echo "<td colspan='2'><b>".$komorka_kwerenda_suma['s_godziny']."</b></td>";
+
+    require "ConnectToDB.php";
+    $KwBilansPionieraSuma = "call BilansPionieraSuma ($id_uzytkownika, $miesiac, $rok);";
+    $BilansPionieraSuma = mysqli_query($link, $KwBilansPionieraSuma);
+    $bilans_typow = mysqli_fetch_array($BilansPionieraSuma);
+    if ($bilans_typow['bilans_typow']>='00:00') {
+        echo "<td colspan='1' bgcolor='#90EE90'><b>".$bilans_typow['bilans_typow']."</b></td>";
+    } else {
+        echo "<td colspan='1' bgcolor='#ffcccb'><b>".$bilans_typow['bilans_typow']."</b></td>";
+    }
     echo "</tr>"; ?>
     <tr>
       <td colspan='8'><b>Miesięczny bilans godzin</b></td>
         <?php if ($komorka_kwerenda_suma['roznica_godzin']>=0) {
-        echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
+        echo "<td colspan='3' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
     } else {
-        echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
+        echo "<td colspan='3' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['roznica_godzin']."</b></td>";
     } ?>
     </tr>
+
+    <tr>
+      <td colspan='8'><b>Suma służby z typów</b></td>
+        <?php if ($komorka_kwerenda_suma['bilans_stypy_kwantum']>='00:00') {
+        echo "<td colspan='3' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['s_typy']."</b></td>";
+    } else {
+        echo "<td colspan='3' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['s_typy']."</b></td>";
+    } ?>
+    </tr>
+
+
+
 
     <tr>
       <td colspan='8'><b>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></b></td>
 <?php
 $bilans_rzeczywisty = $komorka_kwerenda_suma['bilans_rzeczywisty'];
-    if ($bilans_rzeczywisty>='00:00:00') {
-        echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
+    if ($bilans_rzeczywisty>='00:00') {
+        echo "<td colspan='3' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
     } else {
-        echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
+        echo "<td colspan='3' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_rzeczywisty']."</b></td>";
     } ?>
     </tr>
 
@@ -105,38 +250,13 @@ $bilans_rzeczywisty = $komorka_kwerenda_suma['bilans_rzeczywisty'];
       <td colspan='8'><b>Cel dzienny na dzień <?php echo date("d-m-Y"); ?></b></td>
             <?php
       $rzeczywisty_cel_dzienny = $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'];
-    if ($rzeczywisty_cel_dzienny>='00:00:00') {
-        echo "<td colspan='2' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['rzeczywisty_cel_dzienny']."</b></td>";
+    if ($rzeczywisty_cel_dzienny>='00:00') {
+        echo "<td colspan='3' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['rzeczywisty_cel_dzienny']."</b></td>";
     } else {
-        // echo "<td colspan='2' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['rzeczywisty_cel_dzienny']."</b></td>";
-        echo "<td colspan='2' bgcolor='#90EE90'><b>00:00:00</b></td>";
+        echo "<td colspan='3' bgcolor='#90EE90'><b>00:00</b></td>";
     } ?>
 
-
     </tr>
-
-    <!-- <tr>
-      <td colspan='9'><b>Suma liczona z typów służb</b></td>
-      <td colspan='10'><b>Suma liczona z typów służb</b></td>
-      <td colspan='1'><b><?php echo $komorka_kwerenda_suma['s_typy']; ?></b></td>
-    </tr> -->
-
-    <tr>
-      <!-- <td colspan='9'><b>Planowany a rzeczywisty czas w służbie</b></td> -->
-      <td colspan='10'><b>Bilans - oczekiwania a rzeczywistość czasu</b></td>
-            <?php
-$bilans_oczekiwania_rzeczywistosc= $komorka_kwerenda_suma['bilans_oczekiwania_rzeczywistosc'];
-    if ($bilans_oczekiwania_rzeczywistosc>='00:00') {
-        echo "<td colspan='1' bgcolor='#90EE90'><b>".$komorka_kwerenda_suma['bilans_oczekiwania_rzeczywistosc']."</b></td>";
-    } else {
-        echo "<td colspan='1' bgcolor='#ffcccb'><b>".$komorka_kwerenda_suma['bilans_oczekiwania_rzeczywistosc']."</b></td>";
-    } ?>
-    </tr>
-
-
-
-
-
 
 </table>
 </div>

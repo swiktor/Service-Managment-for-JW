@@ -23,6 +23,9 @@ require "ConnectToDB.php";
      <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='Sprawozdania.php'>Sprawozdania</a></font></td>
    </tr>
    <tr>
+       <td colspan="6"><font color='black' style="font-weight:bold"><a color='black' href='InfoTereny.php'>Moje tereny</a></font></td>
+     </tr>
+   <tr>
      <td colspan="3"><font color='black' style="font-weight:bold"><a color='black' href='ListaOsob.php'>Lista osób</a></font></td>
    <td colspan="3"><font color='black' style="font-weight:bold"><a color='black' href='UmowSluzbe.php'>Umów</a></font></td>
    </tr>

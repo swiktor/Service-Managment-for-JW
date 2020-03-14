@@ -21,6 +21,7 @@ if (isset($_GET['id_osoby'])) {
     $kwerenda_ListaTypy = "call TypyLista;";
     $wynik_ListaTypy=mysqli_query($link, $kwerenda_ListaTypy); ?>
 
+
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
   <head>
@@ -64,8 +65,16 @@ if (isset($_GET['id_osoby'])) {
     </select>
 
     <br>
-    <input type="datetime-local" name="kiedy_sluzba_od" value="">
+    <input type="datetime-local" id="kiedy_sluzba_od" name="kiedy_sluzba_od">
     <br>
+
+    <script type="text/javascript">
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
+    var localISOTimeWithoutSeconds = localISOTime.slice(0,16);
+    document.getElementById("kiedy_sluzba_od").value = localISOTimeWithoutSeconds;
+    </script>
+
     <input type="hidden" name="editor" value="1">
     <input type="submit" name="" value="Gotowe">
   </form>
