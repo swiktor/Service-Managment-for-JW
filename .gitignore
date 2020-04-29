@@ -3,3 +3,5 @@ credentials.json
 token.json
 .ftpconfig
 kalendarzsync.php
+JSON/WyszukiwarkaSluzbyAll.php
+.vscode/ftp-sync.json
