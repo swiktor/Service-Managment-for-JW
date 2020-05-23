@@ -3,6 +3,5 @@
 
 # TODO:
 - Dodawanie użytkownika
-- Dodawanie współpracowników
 - Dodawanie terenu
 - Naprawić bilans pioniera
