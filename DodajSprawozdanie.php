@@ -64,19 +64,19 @@ if (isset($_GET['id_sprawozdania'])) {
       </tr>
       <form action="DodajSprawozdanie.php" method="post">
 
-  <div class=""><label>Publikacje:</label></div><input type="text" id="publikacje" onkeyup="czyLiczba('publikacje')" name="publikacje" placeholder = 'Publikacje' value="<?php echo $komorka_sprawozdanie['publikacje']; ?>">
+  <div class=""><label>Publikacje:</label></div><input type="number" id="publikacje" onkeyup="czyLiczba('publikacje')" name="publikacje" placeholder = 'Publikacje' value="<?php echo $komorka_sprawozdanie['publikacje']; ?>">
   <br>
-  <div class=""><label>Filmy:</label></div><input type="text" id="filmy" onkeyup="czyLiczba('filmy')" name="filmy" placeholder = 'Filmy' value="<?php echo $komorka_sprawozdanie['filmy']; ?>">
+  <div class=""><label>Filmy:</label></div><input type="number" id="filmy" onkeyup="czyLiczba('filmy')" name="filmy" placeholder = 'Filmy' value="<?php echo $komorka_sprawozdanie['filmy']; ?>">
   <br>
-  <div class=""><label>Odwiedziny:</label></div><input type="text" id="odwiedziny" onkeyup="czyLiczba('odwiedziny')" name="odwiedziny" placeholder = 'Odwiedziny' value="<?php echo $komorka_sprawozdanie['odwiedziny']; ?>">
+  <div class=""><label>Odwiedziny:</label></div><input type="number" id="odwiedziny" onkeyup="czyLiczba('odwiedziny')" name="odwiedziny" placeholder = 'Odwiedziny' value="<?php echo $komorka_sprawozdanie['odwiedziny']; ?>">
   <br>
-  <div class=""><label>Studia:</label></div><input type="text" id="studia" onkeyup="czyLiczba('studia')" name="studia" placeholder = 'Studia' value="<?php echo $komorka_sprawozdanie['studia']; ?>">
+  <div class=""><label>Studia:</label></div><input type="number" id="studia" onkeyup="czyLiczba('studia')" name="studia" placeholder = 'Studia' value="<?php echo $komorka_sprawozdanie['studia']; ?>">
   <br>
   <div class=""><label>Godziny:</label></div><input type="time" name="godziny" value="<?php echo $komorka_sprawozdanie['godziny']; ?>">
   <input type="hidden" name="editor" value="1">
   <input type="hidden" name="id_sprawozdania" value="<?php echo $id_sprawozdania; ?>">
   <br>
-  <div class=""><input type="submit" name="" value="Zapisz sprawozdanie"></div>
+  <div class=""><input type="submit" id="zapiszSprawozdanie"name="" value="Zapisz sprawozdanie"></div>
 
  <?php
 } else {

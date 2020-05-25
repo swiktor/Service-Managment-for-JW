@@ -22,3 +22,11 @@ a {
   color: #000000;
   text-decoration-line: none;
 }
+
+.czerwona_obwodka {
+  border: 2px solid red;
+}
+
+.zielona_obwodka {
+  border: 2px solid green;
+}
