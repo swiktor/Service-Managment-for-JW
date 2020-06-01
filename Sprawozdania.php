@@ -1,20 +1,17 @@
 <?php
 require 'auth.php';
 
-if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
-{
-?>
+if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
+    ?>
 
 <?php
-    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '1')
-    {
+    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '1') {
         session_start();
         $_SESSION['miesiac'] = $_POST['miesiac'];
         $_SESSION['rok'] = $_POST['rok'];
     }
 
-    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '0')
-    {
+    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '0') {
         session_start();
         $_SESSION['miesiac'] = date('m');
         $_SESSION['rok'] = date('Y');
@@ -24,8 +21,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
     $miesiac = $_SESSION['miesiac'];
     $rok = $_SESSION['rok'];
 
-    if (isset($_POST['editor']) && $_POST['editor'] == '1')
-    {
+    if (isset($_POST['editor']) && $_POST['editor'] == '1') {
         $id_sprawozdania = _POST['id_sprawozdania'];
         $publikacje = $_POST['publikacje'];
         $filmy = $_POST['filmy'];
@@ -42,7 +38,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
     $kwerenda_suma = "call SprawozdaniaSuma($id_uzytkownika, $miesiac, $rok)";
     $wynik_kwerenda_suma = mysqli_query($link, $kwerenda_suma);
     $komorka_kwerenda_suma = mysqli_fetch_array($wynik_kwerenda_suma); ?>
-?>
+
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -77,20 +73,14 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
           <td colspan="2">
             <select name='miesiac' id="miesiac">
               <?php
-    for ($i = 1;$i < 13;$i++)
-    {
-
-        if ($i == $miesiac)
-        {
+    for ($i = 1;$i < 13;$i++) {
+        if ($i == $miesiac) {
             $t = "selected='selected'";
-        }
-        else
-        {
+        } else {
             $t = '';
         }
 
-        switch ($i)
-        {
+        switch ($i) {
             case '1':
                 echo '<option ' . $t . ' value=' . $i . '>Styczeń</option>';
             break;
@@ -153,14 +143,10 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
             <select name='rok' id="rok">
 
               <?php
-    for ($i = 2019;$i < 2029;$i++)
-    {
-        if ($i == $rok)
-        {
+    for ($i = 2019;$i < 2029;$i++) {
+        if ($i == $rok) {
             echo "<option selected='selected' value='$i'>$i</option>";
-        }
-        else
-        {
+        } else {
             echo "<option value='$i'>$i</option>";
         }
     } ?>
@@ -171,21 +157,15 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
     $m = date('m');
     $r = date('Y');
 
-    if ($miesiac < 10)
-    {
+    if ($miesiac < 10) {
         $miesiac = '0' . $miesiac;
     }
 
-    if ($miesiac != $m || $rok != $r)
-    {
+    if ($miesiac != $m || $rok != $r) {
         echo '<input type="hidden" name="wyszukiwarka" value="0">';
-    }
-    else
-    {
+    } else {
         echo '<input type="hidden" name="wyszukiwarka" value="1">';
-    }
-
-?>
+    } ?>
 
           <td colspan="3"><input type="submit" value="Wyszukaj / Reset"></td>
         </form>
@@ -207,8 +187,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
 
       <?php
     $i = 1;
-    while ($komorka_show_sprawozdania = mysqli_fetch_array($wynik_show_sprawozdania))
-    {
+    while ($komorka_show_sprawozdania = mysqli_fetch_array($wynik_show_sprawozdania)) {
         echo "<tr>";
         echo "<form action='Sprawozdania.php' method='post'>";
         echo "<td>" . $i++ . "</td>";
@@ -222,12 +201,9 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
         echo "<td>" . $komorka_show_sprawozdania['godziny'] . "</td>";
         echo "<td><a color='black' href='DodajSprawozdanie.php?id_sprawozdania=" . $komorka_show_sprawozdania['id_sprawozdania'] . "'>Edytuj</a></font></td>";
 
-        if ($komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] >= '00:00')
-        {
+        if ($komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] >= '00:00') {
             echo "<td bgcolor='#90EE90'><b>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</b></td>";
-        }
-        else
-        {
+        } else {
             echo "<td bgcolor='#ffcccb'><b>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</b></td>";
         }
         echo "</form>";
@@ -246,35 +222,26 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
     $KwBilansPionieraSuma = "call BilansPionieraSuma ($id_uzytkownika, $miesiac, $rok);";
     $BilansPionieraSuma = mysqli_query($link, $KwBilansPionieraSuma);
     $bilans_typow = mysqli_fetch_array($BilansPionieraSuma);
-    if ($bilans_typow['bilans_typow'] >= '00:00')
-    {
+    if ($bilans_typow['bilans_typow'] >= '00:00') {
         echo "<td colspan='1' bgcolor='#90EE90'><b>" . $bilans_typow['bilans_typow'] . "</b></td>";
-    }
-    else
-    {
+    } else {
         echo "<td colspan='1' bgcolor='#ffcccb'><b>" . $bilans_typow['bilans_typow'] . "</b></td>";
     }
     echo "</tr>"; ?>
       <tr>
         <td colspan='8'><b>Miesięczny bilans godzin</b></td>
-        <?php if ($komorka_kwerenda_suma['roznica_godzin'] >= 0)
-    {
+        <?php if ($komorka_kwerenda_suma['roznica_godzin'] >= 0) {
         echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['roznica_godzin'] . "</b></td>";
-    }
-    else
-    {
+    } else {
         echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['roznica_godzin'] . "</b></td>";
     } ?>
       </tr>
 
       <tr>
         <td colspan='8'><b>Suma służby z typów</b></td>
-        <?php if ($komorka_kwerenda_suma['bilans_stypy_kwantum'] >= '00:00')
-    {
+        <?php if ($komorka_kwerenda_suma['bilans_stypy_kwantum'] >= '00:00') {
         echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['s_typy'] . "</b></td>";
-    }
-    else
-    {
+    } else {
         echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['s_typy'] . "</b></td>";
     } ?>
       </tr>
@@ -286,12 +253,9 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
         <td colspan='8'><b>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></b></td>
         <?php
     $bilans_rzeczywisty = $komorka_kwerenda_suma['bilans_rzeczywisty'];
-    if ($bilans_rzeczywisty >= '00:00')
-    {
+    if ($bilans_rzeczywisty >= '00:00') {
         echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</b></td>";
-    }
-    else
-    {
+    } else {
         echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</b></td>";
     } ?>
       </tr>
@@ -300,12 +264,9 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
         <td colspan='8'><b>Cel dzienny na dzień <?php echo date("d-m-Y"); ?></b></td>
         <?php
     $rzeczywisty_cel_dzienny = $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'];
-    if ($rzeczywisty_cel_dzienny >= '00:00')
-    {
+    if ($rzeczywisty_cel_dzienny >= '00:00') {
         echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'] . "</b></td>";
-    }
-    else
-    {
+    } else {
         echo "<td colspan='3' bgcolor='#90EE90'><b>00:00</b></td>";
     } ?>
 
@@ -318,9 +279,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW')
 </html>
 
 <?php
-}
-else
-{
+} else {
     header("refresh:0;url=GAuth/Logowanie.php?skad=Sprawozdania.php");
 }
 
