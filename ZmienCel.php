@@ -15,44 +15,52 @@ if (isset($_GET['id_celu'])) {
         $KwProfileLista = "call ProfileLista;";
         $WProfileLista=mysqli_query($link, $KwProfileLista);
     } ?>
- <!DOCTYPE html>
- <html lang="pl" dir="ltr">
+ 
+<!DOCTYPE html>
+<html lang="pl" dir="ltr">
    <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1">
-     <meta charset="utf-8">
-     <link rel="stylesheet" type="text/css" href="style.css">
-     <title>Zmień profil głosiciela</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="style.css">
+      <title>Zmień profil głosiciela</title>
    </head>
    <body>
- <div id='tabelka_show' name='tabelka_show' border=1>
-   <tr>
-     <td colspan="8"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
-   </tr>
-   <br>
-   <tr>
-     <td colspan="8"><font color='black' style="font-weight:bold"><a color='black' href='Sprawozdania.php'>Sprawozdania</a></font></td>
-   </tr>
-  <form action="ZmienCel.php" method="post">
-    <select name='id_celu' id="id_celu">
-      <option value="0">Cele</option>
-      <?php
-      while ($ProfileLista = mysqli_fetch_array($WProfileLista)) {
-          if ($ProfileLista['id_celu'] == $id_celu) {
-              echo "<option selected='selected' value=".$ProfileLista['id_celu'].">".$ProfileLista['pelna_nazwa_celu']."</option>";
-          } else {
-              echo "<option value=".$ProfileLista['id_celu'].">".$ProfileLista['pelna_nazwa_celu']."</option>";
-          }
-      } ?>
-    </select>
-    <input type="hidden" name="editor" value="1">
-    <input type="hidden" name="id_uzytkownika" value="<?php echo $id_uzytkownika; ?>">
-<br>
-    <input type="submit" name="" value="Gotowe">
-
-
- </form>
-</div>
- </body>
+      <div id='tabelka_show' name='tabelka_show'>
+         <table border=1>
+         <tr>
+            <td>
+               <a href='index.php'>Strona główna</a>
+            </td>
+         </tr>
+         <tr>
+            <td ><a href='Sprawozdania.php'>Sprawozdania</a></td>
+         </tr>
+         <form action="ZmienCel.php" method="post">
+            <tr>
+               <td >
+                  <select name='id_celu' id="id_celu">
+                     <option value="0">Cele</option>
+                     <?php
+                        while ($ProfileLista = mysqli_fetch_array($WProfileLista)) {
+                            if ($ProfileLista['id_celu'] == $id_celu) {
+                                echo "<option selected='selected' value=".$ProfileLista['id_celu'].">".$ProfileLista['pelna_nazwa_celu']."</option>";
+                            } else {
+                                echo "<option value=".$ProfileLista['id_celu'].">".$ProfileLista['pelna_nazwa_celu']."</option>";
+                            }
+                        } ?>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <input type="hidden" name="editor" value="1">
+                  <input type="hidden" name="id_uzytkownika" value="<?php echo $id_uzytkownika; ?>">
+                  <input type="submit" name="" value="Gotowe">
+               </td>
+            </tr>
+         </form>
+      </div>
+   </body>
 </html>
 
 
@@ -62,7 +70,7 @@ if (isset($_POST['editor']) && $_POST['editor'] ==1) {
           $id_celu = $_POST['id_celu'];
 
           require "ConnectToDB.php";
-          $KwZmienCel = "UPDATE jw.uzytkownicy SET id_celu = '$id_celu' where id_uzytkownika = '$id_uzytkownika';";
+          $KwZmienCel = "UPDATE uzytkownicy SET id_celu = '$id_celu' where id_uzytkownika = '$id_uzytkownika';";
           $ZmienCel = mysqli_query($link, $KwZmienCel);
 
           if ($ZmienCel)
@@ -85,10 +93,6 @@ if (isset($_POST['editor']) && $_POST['editor'] ==1) {
           }
 
       } ?>
-
-
-
-
 
  <?php
 } else {

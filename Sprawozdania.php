@@ -59,9 +59,8 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
         <td colspan="3">
           <font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font>
         </td>
-        <td colspan='5'><b>Profil: <a color='black'
-              href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'><?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?>
-            </a></b></td>
+        <td colspan='5'><b>Profil: <a class ="podpowiedz" href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'><?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?>
+            <span>Kliknij, by zmienić</span></a></b></td>
         <td colspan='3'><b><a color='black' href='BilansPioniera.php'>Bilans pioniera</a></b></td>
       </tr>
       <tr>

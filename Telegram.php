@@ -60,7 +60,7 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
         $minuty = $komorka_sprawozdanie['minuty_do_przeniesienia'];
 
         require "ConnectToDB.php";
-        $KwDodajSluzbeMinuty = "INSERT INTO jw.sluzby VALUES (NULL, $kto, $typ, '$kiedy', CURRENT_TIMESTAMP(), $uzytkownik, 'id_gcal');";
+        $KwDodajSluzbeMinuty = "INSERT INTO sluzby VALUES (NULL, $kto, $typ, '$kiedy', CURRENT_TIMESTAMP(), $uzytkownik, 'id_gcal');";
         $DodajSluzbeMinuty = mysqli_query($link, $KwDodajSluzbeMinuty);
 
         if ($DodajSluzbeMinuty) {
@@ -71,7 +71,7 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
             $id_sprawozdania = $komorka_kalendarz['id_sprawozdania'];
 
             require "ConnectToDB.php";
-            $kwerenda_spr_add = "UPDATE jw.sprawozdania SET publikacje='0',filmy='0',odwiedziny='0',studia='0',godziny='$minuty' WHERE id_sprawozdania='$id_sprawozdania';";
+            $kwerenda_spr_add = "UPDATE sprawozdania SET publikacje='0',filmy='0',odwiedziny='0',studia='0',godziny='$minuty' WHERE id_sprawozdania='$id_sprawozdania';";
             $wynik_spr_add = mysqli_query($link, $kwerenda_spr_add);
         }
     }

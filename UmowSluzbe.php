@@ -24,63 +24,67 @@ if (isset($_GET['id_osoby'])) {
 
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Umów służbę</title>
-  </head>
-  <body>
-<div id='tabelka_show' name='tabelka_show' border=1>
-  <tr>
-    <td colspan="8"><font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font></td>
-  </tr>
-  <form action="UmowSluzbe.php" method="post">
-
-    <select name='id_osoby' id="id_osoby">
-      <option value="0">Osoba</option>
-      <?php
-      while ($komorka_ListaOsobAktywnych = mysqli_fetch_array($wynik_ListaOsobAktywnych)) {
-          if ($komorka_ListaOsobAktywnych['id_osoby'] == $id_osoby) {
-              echo "<option selected='selected' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
-          } else {
-              echo "<option value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
-          }
-      } ?>
-    </select>
-
-<br>
-
-    <select name='id_typu' id="id_typu">
-      <option value="0">Typ</option>
-
-      <?php
-      while ($komorka_ListaTypy = mysqli_fetch_array($wynik_ListaTypy)) {
-          if ($komorka_ListaTypy['id_typu'] == $id_typu) {
-              echo "<option selected='selected' value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
-          } else {
-              echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
-          }
-      } ?>
-    </select>
-
-    <br>
-    <input type="datetime-local" id="kiedy_sluzba_od" name="kiedy_sluzba_od">
-    <br>
-
-    <script type="text/javascript">
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString().slice(0,-1);
-    var localISOTimeWithoutSeconds = localISOTime.slice(0,16);
-    document.getElementById("kiedy_sluzba_od").value = localISOTimeWithoutSeconds;
-    </script>
-
-    <input type="hidden" name="editor" value="1">
-    <input type="submit" name="" value="Gotowe">
-  </form>
-</div>
-  </body>
+   <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="style.css">
+      <script src="scripts.js"></script>
+      <title>Umów służbę</title>
+   </head>
+   <body onload="obecnaDataGodzina()">
+      <div id='tabelka_show' name='tabelka_show'>
+         <table border=1>
+            <tr>
+               <td><a href='index.php'>Strona główna</a></td>
+            </tr>
+            <form action="UmowSluzbe.php" method="post">
+               <tr>
+                  <td>
+                     <select name='id_osoby' id="id_osoby">
+                        <option value="0">Osoba</option>
+                        <?php
+                           while ($komorka_ListaOsobAktywnych = mysqli_fetch_array($wynik_ListaOsobAktywnych)) {
+                             if ($komorka_ListaOsobAktywnych['id_osoby'] == $id_osoby) {
+                                 echo "<option selected='selected' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
+                             } else {
+                                 echo "<option value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
+                             }
+                           } ?>
+                     </select>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <select name='id_typu' id="id_typu">
+                        <option value="0">Typ</option>
+                        <?php
+                           while ($komorka_ListaTypy = mysqli_fetch_array($wynik_ListaTypy)) {
+                               if ($komorka_ListaTypy['id_typu'] == $id_typu) {
+                                   echo "<option selected='selected' value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
+                               } else {
+                                   echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
+                               }
+                           } ?>
+                     </select>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <input type="datetime-local" id="kiedy_sluzba_od" name="kiedy_sluzba_od">
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     <input type="hidden" name="editor" value="1">
+                     <input type="submit" name="" value="Gotowe">
+                  </td>
+                </tr>
+            </form>
+         </table>
+      </div>
+   </body>
 </html>
+
 
 <?php
 $editor = $_POST['editor'];
@@ -145,7 +149,7 @@ $editor = $_POST['editor'];
             $event = $service->events->insert($calendarId, $event);
             $event_id_gcal =  $event->id;
             require "ConnectToDB.php";
-            $kwerenda_id_gcal = "UPDATE jw.sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
+            $kwerenda_id_gcal = "UPDATE sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
             mysqli_query($link, $kwerenda_id_gcal);
             echo '<script language="javascript">';
             echo 'alert("Dodano służbę")';
