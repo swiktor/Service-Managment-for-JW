@@ -1,11 +1,11 @@
 <?php
-   require 'auth.php';
+   require_once 'auth.php';
    
    if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
        ?>
 <?php
+require_once "ConnectToDB.php";
    if (isset($_POST['editor']) && $_POST['editor'] =='1') {
-      require "ConnectToDB.php";
       $nazwisko = ucfirst(strtolower(mysqli_real_escape_string($link,$_POST['nazwisko'])));
       $imie = ucfirst(strtolower(mysqli_real_escape_string($link,$_POST['imie'])));
    
@@ -13,17 +13,20 @@
       
       if(mysqli_query($link, $kwerenda_dodaj_osobe))
       {
+
         echo '<script language="javascript">';
         echo 'alert("Dodano nową osobę")';
         echo '</script>';
+         
       }
       else {
         echo '<script language="javascript">';
         echo 'alert("Nie udało się dodać nowej osoby")';
         echo '</script>';
+      
+
       }
    }
-    require "ConnectToDB.php";
     $kwerenda_osoby_lista = "call ListaOsobStatystyczna();";
     $wynik_osoby_lista=mysqli_query($link, $kwerenda_osoby_lista); ?>
     
@@ -34,6 +37,7 @@
       <meta charset="utf-8">
       <title>Lista osób</title>
       <link rel="stylesheet" type="text/css" href="style.css">
+      <script src="scripts.js"></script>
    </head>
    <body>
       <div id='tabelka_show' name='tabelka_show'>
@@ -52,7 +56,6 @@
             </tr>
             <?php
                $i =1;
-               
                   while ($komorka_show_osoby = mysqli_fetch_array($wynik_osoby_lista)) {
                       echo "<tr>";
                       echo "<td>".$i++."</td>";
@@ -63,11 +66,10 @@
                       echo "</tr>";
                   } ?>
             <tr>
-               <form action="ListaOsob.php" method="post">
+               <form action="ListaOsob.php" method="post" onsubmit="return sprawdzenieFormularzaDodajOsobe()" name="dodajOsobe">
                   <td><?php echo $i++; ?></td>
-                  <td><input type="text" size='10' id="nazwisko" onkeyup="czyZnak('nazwisko')" name="nazwisko" placeholder='Nazwisko'
-                     value=""></td>
-                  <td><input type="text" size='10' id="imie" onkeyup="czyZnak('imie')" name="imie" placeholder='Imię' value=""></td>
+                  <td><input type="text" size='10' id="nazwisko" name="nazwisko" placeholder='Nazwisko' value=""></td>
+                  <td><input type="text" size='10' id="imie" name="imie" placeholder='Imię' value=""></td>
                   <input type="hidden" name="editor" value="1">
                   <td colspan="3"><input type="submit" value="Dodaj osobę"></td>
                </form>
