@@ -1,5 +1,5 @@
 <?php
-require 'auth.php';
+require_once 'auth.php';
 
 if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
     ?>
@@ -61,9 +61,9 @@ if (isset($_GET['id_osoby'])) {
                            while ($komorka_ListaTypy = mysqli_fetch_array($wynik_ListaTypy)) {
                                if ($komorka_ListaTypy['id_typu'] == $id_typu) {
                                    echo "<option selected='selected' value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
-                               } else {
-                                   echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
-                               }
+                                } else {
+                                    echo "<option value=".$komorka_ListaTypy['id_typu'].">".$komorka_ListaTypy['typ_czas']."</option>";
+                                }
                            } ?>
                      </select>
                   </td>
@@ -87,8 +87,6 @@ if (isset($_GET['id_osoby'])) {
 
 
 <?php
-$editor = $_POST['editor'];
-
     if (isset($_POST['id_osoby'])) {
         $id_osoby = $_POST['id_osoby'];
     }
@@ -101,71 +99,63 @@ $editor = $_POST['editor'];
         $kiedy_sluzba_od = $_POST['kiedy_sluzba_od'];
     }
 
-    if ($editor==1) {
+    if (isset($_POST['editor']) && $_POST['editor'] ==1) {
         require "ConnectToDB.php";
         $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($id_osoby, $id_typu, '$kiedy_sluzba_od', $id_uzytkownika);";
         $wynik_dodaj_sluzbe=mysqli_query($link, $kwerenda_dodaj_sluzbe);
         if ($wynik_dodaj_sluzbe) {
             require "ConnectToDB.php";
             $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_osoby, $id_typu,'$kiedy_sluzba_od',$id_uzytkownika)";
+            
             $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
             $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
 
             $kto = $komorka_kalendarz['kto'];
             $nazwa_typu = $komorka_kalendarz['nazwa_typu'];
             $kiedy_sluzba_od = $komorka_kalendarz['kiedy_sluzba_od'];
-            $czas_trwania = $komorka_kalendarz['czas_trwania'];
+            $kiedy_sluzba_do = $komorka_kalendarz['kiedy_sluzba_do'];
             $id_sluzby = $komorka_kalendarz['id_sluzby'];
 
-            $kiedy_sluzba_do_sub  = substr($kiedy_sluzba_od, 0, 10);
-            $kiedy_sluzba_do_diff =  date('H:i', (strtotime($kiedy_sluzba_od) + strtotime($czas_trwania)));
-            $kiedy_sluzba_do =  $kiedy_sluzba_do_sub . 'T' .$kiedy_sluzba_do_diff . ":00";
-
-            $kiedy_sluzba_od = substr_replace($kiedy_sluzba_od, "T", 10, 1)."+01:00";
-            $kiedy_sluzba_do = $kiedy_sluzba_do."+01:00";
+            $kiedy_sluzba_od = substr_replace($kiedy_sluzba_od, "T", 10, 1);
+            $kiedy_sluzba_do = substr_replace($kiedy_sluzba_do, "T", 10, 1);
 
             require 'kalendarzsync.php';
 
             $event = new Google_Service_Calendar_Event(array(
-        'summary' => $kto,
-        'location' => '',
-        'description' => $nazwa_typu,
-        'start' => array(
-          'dateTime' => $kiedy_sluzba_od,
-          'timeZone' => 'Europe/Warsaw',
-        ),
-        'end' => array(
-      'dateTime' => $kiedy_sluzba_do,
-          'timeZone' => 'Europe/Warsaw',
-        ),
-        'recurrence' => array(),
-        'attendees' => array(),
-        'reminders' => array(
-          'useDefault' => true,
-          'overrides' => array(),
-        ),
-      ));
+                'summary' => $kto,
+                'location' => '',
+                'description' => $nazwa_typu,
+                'start' => array(
+                'dateTime' => $kiedy_sluzba_od,
+                'timeZone' => 'Europe/Warsaw',
+                ),
+                'end' => array(
+                'dateTime' => $kiedy_sluzba_do,
+                'timeZone' => 'Europe/Warsaw',
+                ),
+                'recurrence' => array(),
+                'attendees' => array(),
+                'reminders' => array(
+                'useDefault' => true,
+                'overrides' => array(),
+                ),
+            ));
 
             $event = $service->events->insert($calendarId, $event);
             $event_id_gcal =  $event->id;
+
             require "ConnectToDB.php";
             $kwerenda_id_gcal = "UPDATE sluzby SET id_gcal = '$event_id_gcal' where id_sluzby = $id_sluzby;";
             mysqli_query($link, $kwerenda_id_gcal);
+
             echo '<script language="javascript">';
             echo 'alert("Dodano służbę")';
             echo '</script>';
-
-            $QueryAddLog="call LogAdd($id_uzytkownika,'Add ministry','$ip');";
-            mysqli_query($link, $QueryAddLog);
-
-            header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         } else {
             echo '<script language="javascript">';
             echo 'alert("Nie udało się dodać służby")';
             echo '</script>';
-            header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
         }
-        header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
     } ?>
 
 <?php
