@@ -29,9 +29,6 @@ if (isset($_GET['id_sprawozdania'])) {
             echo 'alert("Edytowano sprawozdanie")';
             echo '</script>';
 
-            require "ConnectToDB.php";
-            $QueryAddLog="call LogAdd($id_uzytkownika,'Edytowano sprawozdanie','$ip');";
-            mysqli_query($link, $QueryAddLog);
             header("refresh:0;url=Sprawozdania.php");
         }
 
@@ -39,6 +36,7 @@ if (isset($_GET['id_sprawozdania'])) {
             echo '<script language="javascript">';
             echo 'alert("Nie udało się edytować sprawozdania")';
             echo '</script>';
+
             header("refresh:0;url=Sprawozdania.php");
         }
     }

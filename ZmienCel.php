@@ -79,9 +79,6 @@ if (isset($_POST['editor']) && $_POST['editor'] ==1) {
             echo 'alert("Zmieniono profil głosiciela")';
             echo '</script>';
 
-            require "ConnectToDB.php";
-            $QueryAddLog="call LogAdd($id_uzytkownika,'Change profile','$ip');";
-            mysqli_query($link, $QueryAddLog);
             header("refresh:0;url=Sprawozdania.php");
 
           }
@@ -89,6 +86,7 @@ if (isset($_POST['editor']) && $_POST['editor'] ==1) {
             echo '<script language="javascript">';
             echo 'alert("Nie udało się zmienić profilu głosiciela")';
             echo '</script>';
+
             header("refresh:0;url=Sprawozdania.php");
           }
 

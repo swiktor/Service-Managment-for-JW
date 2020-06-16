@@ -9,7 +9,9 @@
        require_once('vendor/autoload.php');
        require_once('vendor/PHPGangsta/GoogleAuthenticator.php');
    
-       require "../ConnectToDB.php";
+       require_once('../ConnectToDB.php');
+       require_once('../auth.php');
+       
        $kwerenda_kod = "SELECT id_uzytkownika, GAuth, haslo FROM jw.uzytkownicy where nazwa = '$nazwa'";
        $wynik_kod=mysqli_query($link, $kwerenda_kod);
        $tablica_kod = mysqli_fetch_array($wynik_kod);
@@ -21,7 +23,6 @@
        $haslo_test = password_verify($haslo, $haslo_hash);
    
        if ($resultado && $haslo_test) {
-           session_start();
            $_SESSION['TOTP']='JW';
            $_SESSION['id_uzytkownika']=$id_uzytkownika;
            setcookie("SluzbyTOTP", "JW", time() + (86400 * 7), "/");
@@ -37,9 +38,6 @@
                $ip = $_SERVER['REMOTE_ADDR'];
            }
    
-   require "../ConnectToDB.php";
-   $QueryAddLog="call LogAdd($id_uzytkownika,'User login','$ip');";
-   mysqli_query($link, $QueryAddLog);
        } else {
            echo '<script language="javascript">';
            echo 'alert("Błędny kod")';

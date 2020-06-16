@@ -1,5 +1,5 @@
 <?php
-   require 'auth.php';
+   require_once 'auth.php';
    
    if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
        ?>
@@ -34,9 +34,6 @@
                echo 'alert("Usunięto służbę")';
                echo '</script>';
    
-               $QueryAddLog="call LogAdd($id_uzytkownika,'Remove ministry','$ip');";
-               mysqli_query($link, $QueryAddLog);
-   
                header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
            }
    
@@ -44,6 +41,7 @@
                echo '<script language="javascript">';
                echo 'alert("Nie udało się usunąć służby")';
                echo '</script>';
+
                header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
            }
        }
