@@ -5,19 +5,15 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
     ?>
 
 <?php
+
+    $_SESSION['miesiac'] = date('m');
+    $_SESSION['rok'] = date('Y');
+
     if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '1') {
-        session_start();
         $_SESSION['miesiac'] = $_POST['miesiac'];
         $_SESSION['rok'] = $_POST['rok'];
     }
 
-    if (isset($_POST['wyszukiwarka']) && $_POST['wyszukiwarka'] == '0') {
-        session_start();
-        $_SESSION['miesiac'] = date('m');
-        $_SESSION['rok'] = date('Y');
-    }
-
-    session_start();
     $miesiac = $_SESSION['miesiac'];
     $rok = $_SESSION['rok'];
 

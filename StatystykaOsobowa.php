@@ -5,7 +5,6 @@
        ?>
 <?php
    require "ConnectToDB.php";
-   session_start();
    $miesiac = $_SESSION['miesiac'];
    $rok =  $_SESSION['rok'];
    
