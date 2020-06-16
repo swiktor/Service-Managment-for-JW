@@ -76,5 +76,5 @@
    }
    else
    {
-       header("refresh:0;url=GAuth/Logowanie.php?skad=index.php");
+      header("refresh:0;url=GAuth/Logowanie.php?skad=index.php");
    }?>
