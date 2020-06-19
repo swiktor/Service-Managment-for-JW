@@ -12,12 +12,13 @@
        require_once('../ConnectToDB.php');
        require_once('../auth.php');
        
-       $kwerenda_kod = "SELECT id_uzytkownika, GAuth, haslo FROM jw.uzytkownicy where nazwa = '$nazwa'";
+       $kwerenda_kod = "SELECT id_uzytkownika, GAuth, haslo FROM uzytkownicy where nazwa = '$nazwa'";      
        $wynik_kod=mysqli_query($link, $kwerenda_kod);
        $tablica_kod = mysqli_fetch_array($wynik_kod);
        $codigo_secreto = $tablica_kod['GAuth'];
        $haslo_hash = $tablica_kod['haslo'];
        $id_uzytkownika=$tablica_kod['id_uzytkownika'];
+   
        $autenticador = new PHPGangsta_GoogleAuthenticator();
        $resultado = $autenticador->verifyCode($codigo_secreto, $codigo_verificador, 1);
        $haslo_test = password_verify($haslo, $haslo_hash);
@@ -29,22 +30,14 @@
            setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 7), "/");
            $link = "../".$skad;
            header("refresh:0;url=$link");
-   
-           if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-               $ip = $_SERVER['HTTP_CLIENT_IP'];
-           } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-               $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-           } else {
-               $ip = $_SERVER['REMOTE_ADDR'];
-           }
-   
        } else {
            echo '<script language="javascript">';
            echo 'alert("Błędny kod")';
            echo '</script>';
        }
    }
-   ?>
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
    <head>

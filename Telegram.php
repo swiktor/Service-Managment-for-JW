@@ -54,7 +54,7 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
         $i++;
 
         $kto = $komorka_sprawozdanie['id_osoby'];
-        $typ = '1';
+        $typ = '8';
         $kiedy = $komorka_sprawozdanie['jutro'];
         $uzytkownik = $komorka_sprawozdanie['id_uzytkownika'];
         $minuty = $komorka_sprawozdanie['minuty_do_przeniesienia'];
@@ -85,3 +85,4 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
     $chatid = $komorka_kontrola['telegram_chat_id'];
     $messaggio = $komorka_kontrola['tresc']. ', w ilości: '.$i;
     sendMessage($chatid, $messaggio, $token);
+?>
