@@ -93,32 +93,14 @@
                        echo "<td class='bg-success'>" . $bilans . "</td>";
                    }
                
-                   if ($bilans <= '00:00' && $bilans != '-01:43' && !is_null($godziny))
+                   else
                    {
                        echo "<th scope='row' class='bg-danger'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
                        echo "<td class='bg-danger'>" . $godziny . "</td>";
                        echo "<td class='bg-danger'>" . $cel_dzienny . "</td>";
                        echo "<td class='bg-danger'>" . $bilans . "</td>";
                    }
-               
-                   if ($bilans == '-01:43')
-                   {
-                       echo "<th scope='row' class='bg-warning'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
-                       echo "<td class='bg-warning'>" . $godziny . "</td>";
-                       echo "<td class='bg-warning'>" . $cel_dzienny . "</td>";
-                       echo "<td class='bg-warning'>" . $bilans . "</td>";
-                   }
-               
-                   if (is_null($godziny))
-                   {
-                       $godziny = '00:00';
-                       $bilans = '00:00';
-                       echo "<th scope='row'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
-                       echo "<td>" . $godziny . "</td>";
-                       echo "<td>" . $cel_dzienny . "</td>";
-                       echo "<td>" . $bilans . "</td>";
-                   }
-               }
+                 }
                echo "</tr>"; ?>
                 <tr>
                     <td class='font-weight-bold' colspan="3">Suma:</td>
