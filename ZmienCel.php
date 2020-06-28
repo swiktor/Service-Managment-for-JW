@@ -19,27 +19,17 @@ if (isset($_GET['id_celu'])) {
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta charset="utf-8">
-      <link rel="stylesheet" type="text/css" href="style.css">
       <title>Zmień profil głosiciela</title>
+<?php require "czesci/head";?>
    </head>
    <body>
-      <div id='tabelka_show' name='tabelka_show'>
-         <table border=1>
-         <tr>
-            <td>
-               <a href='index.php'>Strona główna</a>
-            </td>
-         </tr>
-         <tr>
-            <td ><a href='Sprawozdania.php'>Sprawozdania</a></td>
-         </tr>
+      <?php require "czesci/navbar_glowny";?>
+      <div class="table-responsive">
+      <table class="table table-dark text-center">
          <form action="ZmienCel.php" method="post">
             <tr>
                <td >
                   <select name='id_celu' id="id_celu">
-                     <option value="0">Cele</option>
                      <?php
                         while ($ProfileLista = mysqli_fetch_array($WProfileLista)) {
                             if ($ProfileLista['id_celu'] == $id_celu) {
@@ -94,7 +84,7 @@ if (isset($_POST['editor']) && $_POST['editor'] ==1) {
 
  <?php
 } else {
-          header("refresh:0;url=GAuth/Logowanie.php?skad=ZmienCel.php?id_celu=$id_celu");
+          header("refresh:0;url=Logowanie.php?skad=ZmienCel.php?id_celu=$id_celu");
       }
 
   ?>

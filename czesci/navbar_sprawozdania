@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'>Profil: <?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="BilansPioniera.php">Bilans pioniera</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="StatystykaOsobowa.php">Statystyka osobowa</a>
+        </li>
+    </ul>
+</nav>

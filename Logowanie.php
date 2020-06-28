@@ -6,11 +6,10 @@
        $haslo = $_POST["haslo"];
        $codigo_verificador = $_POST["codigo"];
    
-       require_once('vendor/autoload.php');
-       require_once('vendor/PHPGangsta/GoogleAuthenticator.php');
+       require __DIR__ . '/vendor/autoload.php';
    
-       require_once('../ConnectToDB.php');
-       require_once('../auth.php');
+       require_once('ConnectToDB.php');
+       require_once('auth.php');
        
        $kwerenda_kod = "SELECT id_uzytkownika, GAuth, haslo FROM uzytkownicy where nazwa = '$nazwa'";      
        $wynik_kod=mysqli_query($link, $kwerenda_kod);
@@ -28,8 +27,7 @@
            $_SESSION['id_uzytkownika']=$id_uzytkownika;
            setcookie("SluzbyTOTP", "JW", time() + (86400 * 7), "/");
            setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 7), "/");
-           $link = "../".$skad;
-           header("refresh:0;url=$link");
+           header("refresh:0;url=$skad");
        } else {
            echo '<script language="javascript">';
            echo 'alert("Błędny kod")';
@@ -44,7 +42,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta charset="utf-8">
       <title>Logowanie</title>
-      <link rel="stylesheet" type="text/css" href="../style.css">
+      <link rel="stylesheet" type="text/css" href="style.css">
    </head>
    <body>
       <div id='tabelka_show' name='tabelka_show'>

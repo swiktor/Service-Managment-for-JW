@@ -1,51 +1,7 @@
-#tabelka_show {
-  width: auto;
-  text-align: center;
-  overflow-y: scroll;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
-body {
-  text-align: center;
-  margin: 0px;
-  padding: 0px;
-
-}
-
-a {
-  color: #000000;
-  text-decoration-line: none;
-  font-weight: bold;
-}
-
 .czerwona_obwodka {
   border: 2px solid red;
 }
 
 .zielona_obwodka {
   border: 2px solid green;
-}
-
-
-a.podpowiedz span {
-  display: none;
-  padding: 2px 3px;
-  margin-left: 8px;
-  width: 130px;
-}
-
-a.podpowiedz:hover span {
-  display: inline;
-  position: absolute;
-  margin: 0px 0 0 25px;
-  background: #dddddd;
-  border: 1px solid #b30000;
-  color: #000000;
-  -moz-opacity: 0.8;
-  opacity: .80;
-  filter: alpha(opacity=80);
-  text-align: center;
 }

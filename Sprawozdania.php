@@ -18,7 +18,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
     $rok = $_SESSION['rok'];
 
     if (isset($_POST['editor']) && $_POST['editor'] == '1') {
-        $id_sprawozdania = _POST['id_sprawozdania'];
+        $id_sprawozdania = $_POST['id_sprawozdania'];
         $publikacje = $_POST['publikacje'];
         $filmy = $_POST['filmy'];
         $odwiedziny = $_POST['odwiedziny'];
@@ -40,32 +40,20 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
 <html lang="pl">
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
   <title>Sprawozdania</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="scripts.js"></script>
+<?php require "czesci/head";?>
 </head>
-
+<?php require "czesci/navbar_glowny";?>
+<?php require "czesci/navbar_sprawozdania";?>
 <body>
-  <div id='tabelka_show' name='tabelka_show'>
-    <table border=1>
-
-      <tr>
-        <td colspan="3">
-          <font color='black' style="font-weight:bold"><a color='black' href='index.php'>Strona główna</a></font>
-        </td>
-        <td colspan='5'><b>Profil: <a class ="podpowiedz" href='ZmienCel.php?id_uzytkownika=<?php echo $komorka_kwerenda_suma['id_uzytkownika']; ?>&id_celu=<?php echo $komorka_kwerenda_suma['id_celu']; ?>'><?php echo $komorka_kwerenda_suma['pelna_nazwa_celu']; ?>
-            <span>Kliknij, by zmienić</span></a></b></td>
-        <td colspan='3'><b><a color='black' href='BilansPioniera.php'>Bilans pioniera</a></b></td>
-      </tr>
-      <tr>
-        <td colspan='2'><b><a color='black' href='StatystykaOsobowa.php'>Statystyka osobowa</a></b></td>
-        <form class="" action="Sprawozdania.php" method="post">
-          <td colspan="2">
-            <font color='black' style="font-weight:bold">Wyszukiwarka</font>
-          </td>
-          <td colspan="2">
+  <div class="table-responsive">
+      <table class="table table-dark text-center">
+      <tr>  
+      <form class="" action="Sprawozdania.php" method="post">
+          <td colspan="11" class="font-weight-bold">Wyszukiwarka</td>
+</tr> 
+          <tr> 
+          <td colspan="4">
             <select name='miesiac' id="miesiac">
               <?php
     for ($i = 1;$i < 13;$i++) {
@@ -134,7 +122,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
               <option value="0">Miesiąc</option>
             </select>
           </td>
-          <td colspan="2">
+          <td colspan="3">
             <select name='rok' id="rok">
 
               <?php
@@ -162,31 +150,31 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
         echo '<input type="hidden" name="wyszukiwarka" value="1">';
     } ?>
 
-          <td colspan="3"><input type="submit" value="Wyszukaj / Reset"></td>
+          <td colspan="4"><input type="submit" value="Wyszukaj / Reset"></td>
         </form>
       </tr>
 
       <tr>
-        <th>Lp.</th>
-        <th>Kto</th>
-        <th>Kiedy</th>
-        <th>Typ</th>
-        <th>Publikacje</th>
-        <th>Filmy</th>
-        <th>Odwiedziny</th>
-        <th>Studia</th>
-        <th>Godziny</th>
-        <th>Edycja</th>
-        <th>Bilans czasu</th>
+        <th scope="col">Lp.</th>
+        <th scope="col">Kto</th>
+        <th scope="col">Kiedy</th>
+        <th scope="col">Typ</th>
+        <th scope="col">Publikacje</th>
+        <th scope="col">Filmy</th>
+        <th scope="col">Odwiedziny</th>
+        <th scope="col">Studia</th>
+        <th scope="col">Godziny</th>
+        <th scope="col">Edycja</th>
+        <th scope="col">Bilans czasu</th>
       </tr>
-
+<tbody>
       <?php
     $i = 1;
     while ($komorka_show_sprawozdania = mysqli_fetch_array($wynik_show_sprawozdania)) {
         echo "<tr>";
         echo "<form action='Sprawozdania.php' method='post'>";
-        echo "<td>" . $i++ . "</td>";
-        echo "<td><a color='black' href='InfoOsoba.php?id_osoby=" . $komorka_show_sprawozdania['id_osoby'] . "'>" . $komorka_show_sprawozdania['kto'] . "</a></font></td>";
+        echo "<th scope='row' class='font-weight-bold'>" . $i++ . "</th>";
+        echo "<td class='font-weight-bold'><a href='InfoOsoba.php?id_osoby=" . $komorka_show_sprawozdania['id_osoby'] . "'>" . $komorka_show_sprawozdania['kto'] . "</a></font></td>";
         echo "<td>" . $komorka_show_sprawozdania['kiedy_sluzba'] . "</td>";
         echo "<td>" . $komorka_show_sprawozdania['nazwa_typu'] . "</td>";
         echo "<td>" . $komorka_show_sprawozdania['publikacje'] . "</td>";
@@ -194,75 +182,75 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
         echo "<td>" . $komorka_show_sprawozdania['odwiedziny'] . "</td>";
         echo "<td>" . $komorka_show_sprawozdania['studia'] . "</td>";
         echo "<td>" . $komorka_show_sprawozdania['godziny'] . "</td>";
-        echo "<td><a color='black' href='DodajSprawozdanie.php?id_sprawozdania=" . $komorka_show_sprawozdania['id_sprawozdania'] . "'>Edytuj</a></font></td>";
+        echo "<td><a href='DodajSprawozdanie.php?id_sprawozdania=" . $komorka_show_sprawozdania['id_sprawozdania'] . "'>Edytuj</a></font></td>";
 
         if ($komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] >= '00:00') {
-            echo "<td bgcolor='#90EE90'><b>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</b></td>";
+            echo "<td class='bg-success font-weight-bold'>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</td>";
         } else {
-            echo "<td bgcolor='#ffcccb'><b>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</b></td>";
+            echo "<td class='bg-danger font-weight-bold'>" . $komorka_show_sprawozdania['bilans_oczekiwania_rzeczywistosc'] . "</td>";
         }
         echo "</form>";
         echo "</tr>";
     }
 
-    echo "<tr>";
-    echo "<td colspan='4'><b>SUMA</td>";
-    echo "<td><b>" . $komorka_kwerenda_suma['s_publikacje'] . "</b</td>";
-    echo "<td><b>" . $komorka_kwerenda_suma['s_filmy'] . "</b</td>";
-    echo "<td><b>" . $komorka_kwerenda_suma['s_odwiedziny'] . "</b</td>";
-    echo "<td><b>" . $komorka_kwerenda_suma['s_studia'] . "</b</td>";
-    echo "<td colspan='2'><b>" . $komorka_kwerenda_suma['s_godziny'] . "</b></td>";
+    echo "<tr class='font-weight-bold'>";
+    echo "<td colspan='4'>SUMA</td>";
+    echo "<td>" . $komorka_kwerenda_suma['s_publikacje'] . "</b</td>";
+    echo "<td>" . $komorka_kwerenda_suma['s_filmy'] . "</b</td>";
+    echo "<td>" . $komorka_kwerenda_suma['s_odwiedziny'] . "</b</td>";
+    echo "<td>" . $komorka_kwerenda_suma['s_studia'] . "</b</td>";
+    echo "<td colspan='2'>" . $komorka_kwerenda_suma['s_godziny'] . "</td>";
 
     require "ConnectToDB.php";
     $KwBilansPionieraSuma = "call BilansPionieraSuma ($id_uzytkownika, $miesiac, $rok);";
     $BilansPionieraSuma = mysqli_query($link, $KwBilansPionieraSuma);
     $bilans_typow = mysqli_fetch_array($BilansPionieraSuma);
     if ($bilans_typow['bilans_typow'] >= '00:00') {
-        echo "<td colspan='1' bgcolor='#90EE90'><b>" . $bilans_typow['bilans_typow'] . "</b></td>";
+        echo "<td colspan='1' class='bg-success'>" . $bilans_typow['bilans_typow'] . "</td>";
     } else {
-        echo "<td colspan='1' bgcolor='#ffcccb'><b>" . $bilans_typow['bilans_typow'] . "</b></td>";
+        echo "<td colspan='1' class='bg-danger'>" . $bilans_typow['bilans_typow'] . "</td>";
     }
     echo "</tr>"; ?>
-      <tr>
-        <td colspan='8'><b>Miesięczny bilans godzin</b></td>
+      <tr class='font-weight-bold'>
+        <td colspan='8'>Miesięczny bilans godzin</td>
         <?php if ($komorka_kwerenda_suma['roznica_godzin'] >= 0) {
-        echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['roznica_godzin'] . "</b></td>";
+        echo "<td colspan='3' class='bg-success'>" . $komorka_kwerenda_suma['roznica_godzin'] . "</td>";
     } else {
-        echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['roznica_godzin'] . "</b></td>";
+        echo "<td colspan='3' class='bg-danger'>" . $komorka_kwerenda_suma['roznica_godzin'] . "</td>";
     } ?>
       </tr>
 
-      <tr>
-        <td colspan='8'><b>Suma służby z typów</b></td>
+      <tr class='font-weight-bold'>
+        <td colspan='8'>Suma służby z typów</td>
         <?php if ($komorka_kwerenda_suma['bilans_stypy_kwantum'] >= '00:00') {
-        echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['s_typy'] . "</b></td>";
+        echo "<td colspan='3' class='bg-success'>" . $komorka_kwerenda_suma['s_typy'] . "</td>";
     } else {
-        echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['s_typy'] . "</b></td>";
+        echo "<td colspan='3' class='bg-danger'>" . $komorka_kwerenda_suma['s_typy'] . "</td>";
     } ?>
       </tr>
 
 
 
 
-      <tr>
-        <td colspan='8'><b>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></b></td>
+      <tr class='font-weight-bold'>
+        <td colspan='8'>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></td>
         <?php
     $bilans_rzeczywisty = $komorka_kwerenda_suma['bilans_rzeczywisty'];
     if ($bilans_rzeczywisty >= '00:00') {
-        echo "<td colspan='3' bgcolor='#90EE90'><b>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</b></td>";
+        echo "<td colspan='3' class='bg-success'>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</td>";
     } else {
-        echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</b></td>";
+        echo "<td colspan='3' class='bg-danger'>" . $komorka_kwerenda_suma['bilans_rzeczywisty'] . "</td>";
     } ?>
       </tr>
 
-      <tr>
-        <td colspan='8'><b>Cel dzienny na dzień <?php echo date("d-m-Y"); ?></b></td>
+      <tr class='font-weight-bold'>
+        <td colspan='8'>Cel dzienny na dzień <?php echo date("d-m-Y"); ?></td>
         <?php
     $rzeczywisty_cel_dzienny = $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'];
     if ($rzeczywisty_cel_dzienny >= '00:00') {
-        echo "<td colspan='3' bgcolor='#ffcccb'><b>" . $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'] . "</b></td>";
+        echo "<td colspan='3' class='bg-danger'>" . $komorka_kwerenda_suma['rzeczywisty_cel_dzienny'] . "</td>";
     } else {
-        echo "<td colspan='3' bgcolor='#90EE90'><b>00:00</b></td>";
+        echo "<td colspan='3' class='bg-success'>00:00</td>";
     } ?>
 
       </tr>
@@ -275,7 +263,7 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
 
 <?php
 } else {
-    header("refresh:0;url=GAuth/Logowanie.php?skad=Sprawozdania.php");
+    header("refresh:0;url=Logowanie.php?skad=Sprawozdania.php");
 }
 
 ?>

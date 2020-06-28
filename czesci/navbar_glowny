@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="index.php">Strona główna</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="Sprawozdania.php">Sprawozdania</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="ListaOsob.php">Lista osób</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="CiCoNigdy.php">Ci co nigdy</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="UmowSluzbe.php">Umów służbę</a>
+        </li>
+    </ul>
+</nav>

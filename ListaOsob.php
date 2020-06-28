@@ -29,36 +29,36 @@ require_once "ConnectToDB.php";
    }
     $kwerenda_osoby_lista = "call ListaOsobStatystyczna();";
     $wynik_osoby_lista=mysqli_query($link, $kwerenda_osoby_lista); ?>
-    
+
 <!DOCTYPE html>
 <html lang="pl">
-   <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta charset="utf-8">
-      <title>Lista osób</title>
-      <link rel="stylesheet" type="text/css" href="style.css">
-      <script src="scripts.js"></script>
-   </head>
-   <body>
-      <div id='tabelka_show' name='tabelka_show'>
-         <table border=1>
+
+<head>
+   <title>Lista osób</title>
+   <?php require "czesci/head";?>
+</head>
+
+<body>
+   <?php require "czesci/navbar_glowny";?>
+
+
+   <div class="table-responsive">
+      <table class="table table-dark text-center">
+         <thead>
             <tr>
-               <td colspan="5">
-                  <a color='black' href='index.php'>Strona główna</a>
-               </td>
+               <th scope="col">Lp.</th>
+               <th scope="col">Nazwisko</th>
+               <th scope="col">Imię</th>
+               <th scope="col">Info</th>
+               <th scope="col">Umów</th>
             </tr>
-            <tr>
-               <th>Lp.</th>
-               <th>Nazwisko</th>
-               <th>Imię</th>
-               <th>Info</th>
-               <th>Umów</th>
-            </tr>
+         </thead>
+         <tbody>
             <?php
                $i =1;
                   while ($komorka_show_osoby = mysqli_fetch_array($wynik_osoby_lista)) {
                       echo "<tr>";
-                      echo "<td>".$i++."</td>";
+                      echo "<td scope='row' class='font-weight-bold'>".$i++."</td>";
                       echo "<td>".$komorka_show_osoby['nazwisko']."</td>";
                       echo "<td>".$komorka_show_osoby['imie']."</td>";
                       echo "<td><a href='InfoOsoba.php?id_osoby=".$komorka_show_osoby['id_osoby']."'>Info</a></td>";
@@ -66,7 +66,8 @@ require_once "ConnectToDB.php";
                       echo "</tr>";
                   } ?>
             <tr>
-               <form action="ListaOsob.php" method="post" onsubmit="return sprawdzenieFormularzaDodajOsobe()" name="dodajOsobe">
+               <form action="ListaOsob.php" method="post" onsubmit="return sprawdzenieFormularzaDodajOsobe()"
+                  name="dodajOsobe">
                   <td><?php echo $i++; ?></td>
                   <td><input type="text" size='10' id="nazwisko" name="nazwisko" placeholder='Nazwisko' value=""></td>
                   <td><input type="text" size='10' id="imie" name="imie" placeholder='Imię' value=""></td>
@@ -74,14 +75,16 @@ require_once "ConnectToDB.php";
                   <td colspan="3"><input type="submit" value="Dodaj osobę"></td>
                </form>
             </tr>
-         </table>
-      </div>
-   </body>
+         </tbody>
+      </table>
+   </div>
+</body>
+
 </html>
 
 <?php
    } else {
-           header("refresh:0;url=GAuth/Logowanie.php?skad=ListaOsob.php");
+           header("refresh:0;url=Logowanie.php?skad=ListaOsob.php");
        }
    
      ?>
