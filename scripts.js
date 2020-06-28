@@ -41,3 +41,36 @@ function sprawdzenieFormularzaDodajOsobe() {
     }
     return status;
 }
+
+function sprawdzenieFormularzaLogowania() {
+    var status = true;
+    var nazwa = document.forms["formularz_logowanie"]["nazwa"];
+    var haslo = document.forms["formularz_logowanie"]["haslo"];
+    var codigo = document.forms["formularz_logowanie"]["codigo"];
+
+    if (nazwa.value == null || nazwa.value == "") {
+        nazwa.classList.add("czerwona_obwodka");
+        alert("Uzpełnij nazwe użytkownika");
+        status = false;
+    } else {
+        nazwa.classList.remove("czerwona_obwodka");
+    }
+
+    if (haslo.value == null || haslo.value == "") {
+        haslo.classList.add("czerwona_obwodka");
+        alert("Uzpełnij hasło");
+        status = false;
+    } else {
+        haslo.classList.remove("czerwona_obwodka");
+    }
+
+    if (codigo.value == null || codigo.value == "") {
+        codigo.classList.add("czerwona_obwodka");
+        alert("Uzpełnij kod z aplikacji");
+        status = false;
+    } else {
+        codigo.classList.remove("czerwona_obwodka");
+    }
+
+    return status;
+}

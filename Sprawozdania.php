@@ -229,9 +229,6 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP'] = 'JW') {
     } ?>
       </tr>
 
-
-
-
       <tr class='font-weight-bold'>
         <td colspan='8'>Nadmiar / niedobór godzin na dzień <?php echo date("d-m-Y"); ?></td>
         <?php

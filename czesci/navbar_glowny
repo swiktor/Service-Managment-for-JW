@@ -15,5 +15,8 @@
         <li class="nav-item">
             <a class="nav-link" href="UmowSluzbe.php">Umów służbę</a>
         </li>
+         <li class="nav-item">
+            <a class="nav-link" href="<?php $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]?wyloguj=1"; echo $actual_link;?>">Wyloguj</a>
+        </li>
     </ul>
 </nav>
