@@ -85,21 +85,30 @@
                
                    }
                
-                   if ($bilans >= '00:00')
+                   if ($bilans > '00:00')
                    {
                        echo "<th scope='row' class='bg-success'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
                        echo "<td class='bg-success'>" . $godziny . "</td>";
                        echo "<td class='bg-success'>" . $cel_dzienny . "</td>";
                        echo "<td class='bg-success'>" . $bilans . "</td>";
                    }
+
+                    if ($bilans == '00:00')
+                   {
+                       echo "<th scope='row' class='bg-warning'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
+                       echo "<td class='bg-warning'>" . $godziny . "</td>";
+                       echo "<td class='bg-warning'>" . $cel_dzienny . "</td>";
+                       echo "<td class='bg-warning'>" . $bilans . "</td>";
+                   }
                
-                   else
+                   if ($bilans < '00:00')
                    {
                        echo "<th scope='row' class='bg-danger'>" . $dzien . ' (' . $nazwa_dnia . ')' . "</th>";
                        echo "<td class='bg-danger'>" . $godziny . "</td>";
                        echo "<td class='bg-danger'>" . $cel_dzienny . "</td>";
                        echo "<td class='bg-danger'>" . $bilans . "</td>";
                    }
+                   
                  }
                echo "</tr>"; ?>
                 <tr>
