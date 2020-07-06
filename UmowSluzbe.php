@@ -9,6 +9,8 @@ if (isset($_SESSION['TOTP']) && $_SESSION['TOTP']='JW') {
 if (isset($_GET['id_osoby'])) {
     $id_osoby = $_GET['id_osoby'];
 }
+else
+{$id_osoby = 0;}
 
     if (isset($_GET['id_typu'])) {
         $id_typu = $_GET['id_typu'];
@@ -38,17 +40,15 @@ if (isset($_GET['id_osoby'])) {
             <form action="UmowSluzbe.php" method="post">
                 <tr>
                     <td>
-                        <select name='id_osoby' id="id_osoby">
-                            <option value="0">Osoba</option>
-                            <?php
+                        <?php
                            while ($komorka_ListaOsobAktywnych = mysqli_fetch_array($wynik_ListaOsobAktywnych)) {
                              if ($komorka_ListaOsobAktywnych['id_osoby'] == $id_osoby) {
-                                 echo "<option selected='selected' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
+                                 echo "<input type='checkbox' checked name='osoby[]' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."<br>"; 
                              } else {
-                                 echo "<option value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."</option>";
+                                  echo "<input type='checkbox' name='osoby[]' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."<br>";
                              }
-                           } ?>
-                        </select>
+                           } 
+                        ?>
                     </td>
                 </tr>
                 <tr>
@@ -86,8 +86,8 @@ if (isset($_GET['id_osoby'])) {
 
 
 <?php
-    if (isset($_POST['id_osoby'])) {
-        $id_osoby = $_POST['id_osoby'];
+    if (isset($_POST['osoby'])) {
+        $osoby = $_POST['osoby'];
     }
 
     if (isset($_POST['id_typu'])) {
@@ -100,20 +100,42 @@ if (isset($_GET['id_osoby'])) {
 
     if (isset($_POST['editor']) && $_POST['editor'] ==1) {
         require "ConnectToDB.php";
-        $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($id_osoby, $id_typu, '$kiedy_sluzba_od', $id_uzytkownika);";
+        $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($id_typu, '$kiedy_sluzba_od', $id_uzytkownika);";
         $wynik_dodaj_sluzbe=mysqli_query($link, $kwerenda_dodaj_sluzbe);
         if ($wynik_dodaj_sluzbe) {
             require "ConnectToDB.php";
-            $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_osoby, $id_typu,'$kiedy_sluzba_od',$id_uzytkownika)";
+            $kwerenda_kalendarz = "CALL DaneDoKalendarza($id_typu,'$kiedy_sluzba_od',$id_uzytkownika)";
             
             $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
             $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
 
-            $kto = $komorka_kalendarz['kto'];
             $nazwa_typu = $komorka_kalendarz['nazwa_typu'];
             $kiedy_sluzba_od = $komorka_kalendarz['kiedy_sluzba_od'];
             $kiedy_sluzba_do = $komorka_kalendarz['kiedy_sluzba_do'];
             $id_sluzby = $komorka_kalendarz['id_sluzby'];
+
+            $lista_osob = "";
+
+            for ($i=0; $i<sizeof ($osoby);$i++) 
+            {  
+                require "ConnectToDB.php";
+                $kwerenda_ktoTo = "CALL ktoTo($osoby[$i])";
+                $wynik_ktoTo = mysqli_query($link, $kwerenda_ktoTo);
+                $komorka_ktoTo = mysqli_fetch_array($wynik_ktoTo);
+        
+                if($i==0)
+                {
+                    $lista_osob = $komorka_ktoTo['kto'];
+                }
+                else
+                {
+                    $lista_osob = $lista_osob . ", " . $komorka_ktoTo['kto'];
+                }
+                
+                require "ConnectToDB.php";
+                $kwerenda_powiazanieSluzby = "CALL powiazanieSluzby($id_sluzby, $osoby[$i])";
+                mysqli_query($link, $kwerenda_powiazanieSluzby);
+            }  
 
             $kiedy_sluzba_od = substr_replace($kiedy_sluzba_od, "T", 10, 1);
             $kiedy_sluzba_do = substr_replace($kiedy_sluzba_do, "T", 10, 1);
@@ -121,7 +143,7 @@ if (isset($_GET['id_osoby'])) {
             require 'kalendarzsync.php';
 
             $event = new Google_Service_Calendar_Event(array(
-                'summary' => $kto,
+                'summary' => $lista_osob,
                 'location' => '',
                 'description' => $nazwa_typu,
                 'start' => array(

@@ -5,3 +5,7 @@
 .zielona_obwodka {
   border: 2px solid green;
 }
+
+.vertical-center {
+  vertical-align: middle !important;
+}

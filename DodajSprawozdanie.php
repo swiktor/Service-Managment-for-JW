@@ -49,18 +49,13 @@ if (isset($_GET['id_sprawozdania'])) {
 <!DOCTYPE html>
 <html lang="pl" dir="ltr">
    <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta charset="utf-8">
-      <link rel="stylesheet" type="text/css" href="style.css">
-      <title>Sprawozdania ze służby</title>
-      <script src="scripts.js"></script>
+      <title>Edycja sprawozdania</title>
+          <?php require "czesci/head";?>
    </head>
    <body>
-      <div id='tabelka_show' name='tabelka_show'>
-         <table border=1>
-            <tr>
-               <td><a color='black' href='Sprawozdania.php'>Wszystkie sprawozdania</a></td>
-            </tr>
+   <?php require "czesci/navbar_glowny";?>
+      <div class="table-responsive">
+        <table class="table table-dark text-center">
             <form action="DodajSprawozdanie.php" method="post">
             <tr>
                <td>

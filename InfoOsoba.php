@@ -23,7 +23,7 @@
            $event_id = $komorka_id_gcal['id_gcal'];
    
            require "ConnectToDB.php";
-           $kwerenda_usuwanie = "DELETE FROM sluzby WHERE sluzby.id_sluzby=$id_sluzby";
+           $kwerenda_usuwanie = "call usuwanieSluzby($id_sluzby)";
            $wynik_usuwanie=mysqli_query($link, $kwerenda_usuwanie);
    
            require 'kalendarzsync.php';
@@ -33,7 +33,6 @@
                echo '<script language="javascript">';
                echo 'alert("Usunięto służbę")';
                echo '</script>';
-   
                header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
            }
    
@@ -41,7 +40,6 @@
                echo '<script language="javascript">';
                echo 'alert("Nie udało się usunąć służby")';
                echo '</script>';
-
                header("refresh:0;url=InfoOsoba.php?id_osoby=$id_osoby");
            }
        }
