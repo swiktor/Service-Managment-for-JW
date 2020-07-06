@@ -38,19 +38,20 @@ else
     <div class="table-responsive">
         <table class="table table-dark text-center">
             <form action="UmowSluzbe.php" method="post">
-                <tr>
-                    <td>
+                
                         <?php
                            while ($komorka_ListaOsobAktywnych = mysqli_fetch_array($wynik_ListaOsobAktywnych)) {
+                            echo "<tr> <td>";    
+
                              if ($komorka_ListaOsobAktywnych['id_osoby'] == $id_osoby) {
                                  echo "<input type='checkbox' checked name='osoby[]' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."<br>"; 
                              } else {
                                   echo "<input type='checkbox' name='osoby[]' value=".$komorka_ListaOsobAktywnych['id_osoby'].">".$komorka_ListaOsobAktywnych['kto']."<br>";
                              }
+                             echo "</td> </tr>";
                            } 
                         ?>
-                    </td>
-                </tr>
+                  
                 <tr>
                     <td>
                         <select name='id_typu' id="id_typu">
