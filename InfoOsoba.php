@@ -26,9 +26,12 @@
            $kwerenda_usuwanie = "call usuwanieSluzby($id_sluzby)";
            $wynik_usuwanie=mysqli_query($link, $kwerenda_usuwanie);
    
+
+           if (!is_null($event_id) && $event_id!="" && $event_id!="id_gcal") {
            require 'kalendarzsync.php';
            $event = $service->events->delete($calendarId, $event_id);
-   
+            }
+
            if ($wynik_usuwanie) {
                echo '<script language="javascript">';
                echo 'alert("Usunięto służbę")';

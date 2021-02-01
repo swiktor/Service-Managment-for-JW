@@ -74,3 +74,28 @@ function sprawdzenieFormularzaLogowania() {
 
     return status;
 }
+
+function onSignIn(googleUser) {
+    // Przykładowe dane które możemy pobrać we frontendzie
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Pod żadnym pozorem nie wysyłany tego do back-endu!
+    console.log('Nazwa: ' + profile.getName());
+    console.log('Imię: ' + profile.getGivenName());
+    console.log('Nazwisko: ' + profile.getFamilyName());
+    console.log("Adres URL do zdjęcia profilowego: " + profile.getImageUrl());
+    console.log("E-mail: " + profile.getEmail());
+
+    // To w tym miejscu pobieramy id_token:
+    var id_token = googleUser.getAuthResponse().id_token;
+    console.log("ID Token: " + id_token);
+
+    var data = $.parseJSON(output);
+
+    if (data['status'] == "1") {
+        window.location.href = "https://[ścieżka docelowa po zalogowaniu]";
+    }
+    if (data['status'] == "2") {
+        location.reload(); //Nieudane logowanie? Jeszcze raz...
+    }
+
+};

@@ -37,8 +37,8 @@ if (isset($_POST["logowanie"]) && $_POST["logowanie"]=="in")
         {
             $_SESSION['TOTP'] = 'JW';
             $_SESSION['id_uzytkownika'] = $id_uzytkownika;
-            setcookie("SluzbyTOTP", "JW", time() + (86400 * 7));
-            setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 7));
+            setcookie("SluzbyTOTP", "JW", time() + (86400 * 360));
+            setcookie("SluzbyID", $id_uzytkownika, time() + (86400 * 360));
             header("refresh:0;url=$skad");
         }
         else
@@ -62,6 +62,13 @@ if (isset($_POST["logowanie"]) && $_POST["logowanie"]=="in")
 <head>
    <title>Logowanie</title>
    <?php require "czesci/head";?>
+   <meta name="google-signin-scope" content="profile email">
+   <meta name="google-signin-client_id" content="752103993244-mirv7g94es3uc998428cl4cmbgmi8rsm.apps.googleusercontent.com">
+   <script src="https://apis.google.com/js/platform.js" async defer>
+      {
+         lang: 'pl'
+      }
+   </script>
 </head>
 
 <body>
@@ -84,6 +91,11 @@ if (isset($_POST["logowanie"]) && $_POST["logowanie"]=="in")
                   <input type="number" name="codigo" placeholder="Podaj kod z aplikacji" autocomplete="off" min="1"
                      max="999999" minlength="6" maxlength="6" required>
                   <input type="hidden" name="logowanie" value="in">
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="g-signin2 d-flex justify-content-center" data-onsuccess="onSignIn" data-theme="dark"></div>
                </td>
             </tr>
             <tr>

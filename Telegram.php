@@ -53,27 +53,39 @@ while ($komorka_sprawozdanie = mysqli_fetch_array($wynik_sprawozdanie)) {
         sendMessage($chatid, $messaggio, $token);
         $i++;
 
-        $kto = $komorka_sprawozdanie['id_osoby'];
         $typ = '8';
         $kiedy = $komorka_sprawozdanie['jutro'];
         $uzytkownik = $komorka_sprawozdanie['id_uzytkownika'];
         $minuty = $komorka_sprawozdanie['minuty_do_przeniesienia'];
 
         require "ConnectToDB.php";
-        $KwDodajSluzbeMinuty = "INSERT INTO sluzby VALUES (NULL, $kto, $typ, '$kiedy', CURRENT_TIMESTAMP(), $uzytkownik, 'id_gcal');";
-        $DodajSluzbeMinuty = mysqli_query($link, $KwDodajSluzbeMinuty);
+        $kwerenda_dodaj_sluzbe = "CALL DodajNowaSluzbeFunkcja ($typ, '$kiedy', $uzytkownik);";
+        $wynik_dodaj_sluzbe=mysqli_query($link, $kwerenda_dodaj_sluzbe);
 
-        if ($DodajSluzbeMinuty) {
+        if ($wynik_dodaj_sluzbe) {
+            $id_sluzby="";
+            $id_sprawozdania="";
+            $id_osoby="";
+
             require "ConnectToDB.php";
-            $kwerenda_kalendarz = "CALL DaneDoKalendarza($kto, $typ,'$kiedy',$uzytkownik)";
-            $wynik_kalendarz = mysqli_query($link, $kwerenda_kalendarz);
-            $komorka_kalendarz = mysqli_fetch_array($wynik_kalendarz);
-            $id_sprawozdania = $komorka_kalendarz['id_sprawozdania'];
+            $kwerenda_DanePrzeniesienieMinut="CALL DanePrzeniesienieMinut($typ, '$kiedy', $uzytkownik)";
+            $wynik_DanePrzeniesienieMinut=mysqli_query($link, $kwerenda_DanePrzeniesienieMinut);
+            
+            while ($komorka_DanePrzeniesienieMinut = mysqli_fetch_array($wynik_DanePrzeniesienieMinut)) {
+                $id_sluzby=$komorka_DanePrzeniesienieMinut['id_sluzby'];
+                $id_sprawozdania=$komorka_DanePrzeniesienieMinut['id_sprawozdania'];
+                $id_osoby=$komorka_DanePrzeniesienieMinut['id_osoby'];
+            }
+
+            require "ConnectToDB.php";
+            $kwerenda_powiazanieSluzby = "CALL powiazanieSluzby($id_sluzby, $id_osoby)";
+            mysqli_query($link, $kwerenda_powiazanieSluzby);
 
             require "ConnectToDB.php";
             $kwerenda_spr_add = "UPDATE sprawozdania SET publikacje='0',filmy='0',odwiedziny='0',studia='0',godziny='$minuty' WHERE id_sprawozdania='$id_sprawozdania';";
             $wynik_spr_add = mysqli_query($link, $kwerenda_spr_add);
-        }
+
+        } 
     }
 }
 
